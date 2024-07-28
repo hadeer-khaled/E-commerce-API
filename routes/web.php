@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Category;
+use App\Models\Product;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +15,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/test', function () {
+    $category= Category::find(1);
+    $category->attachment()->create(['filename' => 'phone_category_image.jpg']);
+
+    $product= Product::find(2);
+    $product->attachments()->create(['filename' => 'samsung_image.jpg']);
+
+    $category = Category::find(1);
+    $category_attachments = $category->attachment;
+
+    $product = Product::find(2);
+    $product_attachments = $product->attachments;
+
+    dd( $product_attachments);
+
+
+
     return view('welcome');
 });
