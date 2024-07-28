@@ -31,7 +31,7 @@ Route::get('/test', function () {
     $product = Product::find(2);
     $product_attachments = $product->attachments;
 
-    dd( $product_attachments);
+    dd($product_attachments);
 
 
 
