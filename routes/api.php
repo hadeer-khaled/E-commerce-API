@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +43,9 @@ Route::post('users', [UserController::class, 'store'])->name('users.store');
 Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+
+Route::apiResource('roles',RoleController::class);
+Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermissionToRole']);
+
+Route::apiResource('permissions', PermissionController::class);
