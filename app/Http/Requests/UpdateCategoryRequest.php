@@ -22,7 +22,7 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string' , 'max:255'],
+            'title' => ['nullable', 'string' , 'max:255' , 'unique:categories'],
             'image' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
         ];
     }
