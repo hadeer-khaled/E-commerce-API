@@ -11,7 +11,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string' , 'max:255'],
+            'title' => ['nullable', 'string' , 'max:255'],
             'image' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
         ];
     }
