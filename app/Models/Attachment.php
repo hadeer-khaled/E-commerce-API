@@ -9,7 +9,8 @@ class Attachment extends Model
 {
     use HasFactory;
 
-    protected $fillable=['filename'];
+    protected $fillable = ['filename', 'attachable_id', 'attachable_type'];
+
 
     public function attachable(){
         return $this->morphTo();

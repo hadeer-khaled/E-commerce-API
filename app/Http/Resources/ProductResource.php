@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
             "category"=>$this->category->title,
             'images' => $this->attachments->map(function ($image) {
                 return asset('storage/' . $image->filename);
-            })->all(),
+            }),
         ];
     }
 }
