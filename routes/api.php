@@ -34,9 +34,10 @@ Route::post('categories', [CategoryController::class, 'store'])->name('categorie
 Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
 Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import');
 
 Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::post('users', [UserController::class, 'store'])->name('users.store');
 Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
 Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');

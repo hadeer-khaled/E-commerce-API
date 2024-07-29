@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Exception;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
@@ -16,6 +17,11 @@ use App\Http\Resources\CategoryResource;
 
 use App\Models\Category;
 use App\Models\Attachment;
+
+use App\Imports\CategoriesImport ;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\ValidationException;
+
 
 class CategoryController extends Controller
 {
@@ -138,6 +144,30 @@ class CategoryController extends Controller
     
             return response()->json([
                 'message' => 'Failed to delete Category',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function import(Request $request){
+        $validatedData = $request->validate([
+             'categories'=> ['required', 'file', 'mimes:xlsx,xls,csv'],
+            ]);
+        try {
+            Excel::import(new CategoriesImport, $validatedData['categories']);
+            return response()->json([
+                'message' => 'Import Categories successful',
+            ], 200);
+        } 
+        catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Import Categories failed',
+                'error' => $e->errors(),
+            ], 422); 
+        }
+        catch (Exception $e) {
+            return response()->json([
+                'message' => 'Import Categories failed',
                 'error' => $e->getMessage(),
             ], 500);
         }
