@@ -27,24 +27,31 @@ use App\Http\Controllers\Api\PermissionController;
 
 Route::middleware(['auth:api'])->group(function(){
 
-Route::get('products', [ProductController::class, 'index'])->name('products.index');
-Route::post('products', [ProductController::class, 'store'])->name('products.store');
-Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
-Route::patch('products/{product}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('products', [ProductController::class, 'index'])->name('products.index');
+    Route::post('products', [ProductController::class, 'store'])->name('products.store')->middleware(['role:admin']);
+    Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+    Route::patch('products/{product}', [ProductController::class, 'update'])->name('products.update')->middleware(['role:admin']);
+    Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy')->middleware(['role:admin']);
 
-Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
-Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
-Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
-Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
-Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import');
+    Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('categories', [CategoryController::class, 'store'])->name('categories.store')->middleware(['role:admin']);
+    Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update')->middleware(['role:admin']);
+    Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy')->middleware(['role:admin']);
+    Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import')->middleware(['role:admin']);
 
-Route::get('users', [UserController::class, 'index'])->name('users.index');
-Route::post('users', [UserController::class, 'store'])->name('users.store');
-Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');    
+
+    Route::middleware('role:admin')->group(function(){
+
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::post('users', [UserController::class, 'store'])->name('users.store');
+        Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+        Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');   
+        Route::post('add-role-to-user/{user}',[UserController::class , 'addRoleToUser']);
+    });
+
+
 });
 
 Route::post("register" , [AuthController::class , 'register'] );

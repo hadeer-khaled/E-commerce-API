@@ -65,4 +65,16 @@ class UserController extends Controller
         ], 200);
 
     }
+    public function addRoleToUser(Request $request, User $user)
+    {
+        $validatedData = $request->validate([
+            'roles' => ['required', 'array'],
+            'roles.*' => ['string', 'exists:roles,name' ],
+        ]);
+        
+        $user->syncRoles($validatedData);
+        return response()->json([
+            "message" => "Roles added to user successfully",
+        ], 201);
+    }
 }
