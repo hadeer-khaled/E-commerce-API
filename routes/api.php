@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PermissionController;
 
@@ -24,6 +25,7 @@ use App\Http\Controllers\Api\PermissionController;
 //     return $request->user();
 // });
 
+Route::middleware(['auth:api'])->group(function(){
 
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
@@ -42,8 +44,11 @@ Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::post('users', [UserController::class, 'store'])->name('users.store');
 Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');    
+});
 
+Route::post("register" , [AuthController::class , 'register'] );
+Route::post("login" , [AuthController::class , 'login']);
 
 Route::apiResource('roles',RoleController::class);
 Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermissionToRole']);
