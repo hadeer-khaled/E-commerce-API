@@ -54,8 +54,8 @@ use App\Http\Controllers\Api\PermissionController;
 
 // });
 
-Route::post("register" , [AuthController::class , 'register'] );
-Route::post("login" , [AuthController::class , 'login']);
+Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
+Route::post("login" , [AuthController::class , 'login'])->name('login'); 
 
 Route::apiResource('roles',RoleController::class);
 Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermissionToRole']);
