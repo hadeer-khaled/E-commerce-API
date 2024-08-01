@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Swagger\schemas;
+namespace App\Swagger\requestBodies;
 
 /**
  * @OA\RequestBody(
@@ -29,5 +29,5 @@ namespace App\Swagger\schemas;
  */
 
  class CreateCategory{
-    
+
  }

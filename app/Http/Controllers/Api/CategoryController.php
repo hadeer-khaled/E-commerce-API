@@ -47,9 +47,10 @@ class CategoryController extends Controller
      *     )
      * )
      */
+
     public function index()
     {
-    $categories = Category::with("attachment")->paginate(2);
+        $categories = Category::with("attachment")->paginate(2);
 
         return response()->json([
             "data" => CategoryResource::collection($categories),
@@ -63,7 +64,7 @@ class CategoryController extends Controller
      *     summary="Create a new category",
      *     tags={"Categories"},
      *     @OA\RequestBody(
-     *         ref="#/components/requestBodies/CreateCategory"
+     *         ref="#/components/requestBodies/CreateCategory"  
      *     ),
      *     @OA\Response(
      *         response=201,
@@ -71,11 +72,13 @@ class CategoryController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Category"),
+     *                 ref="#/components/schemas/Category"  
+     *             ),
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
-     *                 example="Category created successfully")
+     *                 example="Category created successfully"
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -107,6 +110,7 @@ class CategoryController extends Controller
      *     )
      * )
      */
+
     public function store(StoreCategoryRequest $request)
     {
         DB::beginTransaction();
@@ -182,7 +186,56 @@ class CategoryController extends Controller
         ], 200);
     }
 
-
+    /**
+     * @OA\Put(
+     *     path="/categories/{id}",
+     *     summary="Update an existing category",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         description="The ID of the category to update"
+     *     ),
+     *     @OA\RequestBody(
+     *         ref="#/components/requestBodies/CreateCategory"
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         ref="#/components/schemas/Category"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to update category",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to update category"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The title field is required."
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         DB::beginTransaction();
@@ -220,6 +273,48 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/categories/{id}",
+     *     summary="Delete a category",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the category to delete",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Category deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Category deleted successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to delete category",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to delete Category"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     ),
+     * )
+     */
+
  
     public function destroy(Category $category)
     {
@@ -248,6 +343,73 @@ class CategoryController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * @OA\Post(
+     *     path="/categories/import",
+     *     summary="Import categories from a file",
+     *     tags={"Categories"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"categories"},
+     *                 @OA\Property(
+     *                     property="categories",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="The file containing categories to import (xlsx, xls, csv)"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Import Categories successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Import Categories successful"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Import Categories failed"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="object",
+     *                 example={"categories": "The categories field is required."}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Import Categories failed"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     )
+     * )
+     */
 
     public function import(Request $request){
         $validatedData = $request->validate([
