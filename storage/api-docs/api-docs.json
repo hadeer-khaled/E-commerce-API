@@ -19,6 +19,86 @@
         }
     ],
     "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register a new user",
+                "operationId": "5d4fa5d5607ed675ba93907e1fc94534",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateUser"
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "user registered successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "email": [
+                                                    "The email has already been taken."
+                                                ],
+                                                "password": [
+                                                    "The password must be at least 8 characters."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to register user"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Detailed error message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/categories": {
             "get": {
                 "tags": [
@@ -376,6 +456,32 @@
                     }
                 },
                 "type": "object"
+            },
+            "User": {
+                "title": "User Resource",
+                "description": "A representation of a user",
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "The name of the user",
+                        "type": "string",
+                        "example": "hadeer"
+                    },
+                    "email": {
+                        "description": "The email of the user",
+                        "type": "string",
+                        "example": "hadeer@gmail.com"
+                    }
+                },
+                "type": "object"
             }
         },
         "responses": {
@@ -421,10 +527,52 @@
                         }
                     }
                 }
+            },
+            "CreateUser": {
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "title"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "The name of the user",
+                                    "type": "string",
+                                    "maxLength": 50,
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "description": "The unique email address of the user",
+                                    "type": "string",
+                                    "format": "email",
+                                    "example": "johndoe@example.com"
+                                },
+                                "password": {
+                                    "description": "The password for the user",
+                                    "type": "string",
+                                    "format": "password",
+                                    "minLength": 3
+                                },
+                                "password_confirmation": {
+                                    "description": "The password confirmation",
+                                    "type": "string",
+                                    "format": "password"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         }
     },
     "tags": [
+        {
+            "name": "Users",
+            "description": "Users"
+        },
         {
             "name": "Categories",
             "description": "Categories"
