@@ -22,21 +22,91 @@ use App\Imports\CategoriesImport ;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
 
-
 class CategoryController extends Controller
 {
 
+    /**
+     * @OA\Get(
+     *     path="/categories",
+     *     summary="Get a list of categories",
+     *     description="Retrieve a paginated list of categories with their attachments.",
+     *     tags={"Categories"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Categories retrieved successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Category")
+     * 
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error"
+     *     )
+     * )
+     */
     public function index()
     {
-       $categories = Category::with("attachment")->paginate(2);
+    $categories = Category::with("attachment")->paginate(2);
 
         return response()->json([
             "data" => CategoryResource::collection($categories),
             "message" => "Categories retrieved successfully",
         ], 200);
     }
-
-
+    
+    /**
+     * @OA\Post(
+     *     path="/categories",
+     *     summary="Create a new category",
+     *     tags={"Categories"},
+     *     @OA\RequestBody(
+     *         ref="#/components/requestBodies/CreateCategory"
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Category created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/Category"),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Category created successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to create category",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to create category"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The title field is required."
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreCategoryRequest $request)
     {
         DB::beginTransaction();
@@ -73,7 +143,37 @@ class CategoryController extends Controller
         }
     }
 
-
+    /**
+     * @OA\Get(
+     *     path="/categories/{id}",
+     *     summary="Retrieve a specific category",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         description="The ID of the category"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *             ref="#/components/schemas/Category"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Category not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Category not found"
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function show(Category $category)
     {
         return response()->json([

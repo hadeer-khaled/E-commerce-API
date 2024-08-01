@@ -113,6 +113,31 @@
                     }
                 }
             }
+        },
+        "/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Retrieve a specific category",
+                "operationId": "486849467f411ec5e4bdf111f50ede87",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/schemas/Category"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -144,6 +169,24 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "responses": {
+            "404": {
+                "description": "Category not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Category not found"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         },
         "requestBodies": {
