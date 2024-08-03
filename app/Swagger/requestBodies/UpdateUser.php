@@ -4,13 +4,13 @@ namespace App\Swagger\requestBodies;
 
 /**
  * @OA\RequestBody(
- *     request="CreateUser",
+ *     request="UpdateUser",
  *     required=true,
  *     @OA\MediaType(
  *         mediaType="multipart/form-data",
  *         @OA\Schema(
  *             type="object",
- *             required={"name" , "email" , "password" , "password_confirmation"},
+ *             required={"name" , "email"},
  *             @OA\Property(
  *                 property="name",
  *                 type="string",
@@ -22,19 +22,11 @@ namespace App\Swagger\requestBodies;
  *                 type="string",
  *                 description="The email associated with the user"
  *             ),
- *             @OA\Property(
- *                 property="password",
- *                 type="string",
- *             ),
- *             @OA\Property(
- *                 property="password_confirmation",
- *                 type="string",
- *             ),
  *         )
  *     )
  * )
  */
 
-class CreateUser
+class UpdateUser
 {
 }

@@ -8,7 +8,7 @@ namespace App\Swagger\schemas;
  *     type="object",
  *     title="User Resource",
  *     description="A representation of a user",
- *     required={"id", "title"},
+ *     required={"id", "name" , "email"},
  *     @OA\Property(
  *         property="id",
  *         type="integer",

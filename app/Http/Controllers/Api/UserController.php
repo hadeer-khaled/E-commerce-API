@@ -14,6 +14,54 @@ use App\Models\User;
 class UserController extends Controller
 {
 
+    /**
+     * @OA\Get(
+     *     path="/users",
+     *     summary="Get a list of users",
+     *     description="Retrieve a list of all users.",
+     *     tags={"Users"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Users retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/User")
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="users retrieved successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Unauthorized"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Internal Server Error"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
+
     public function index()
     {
         $users = User::get();
@@ -23,7 +71,58 @@ class UserController extends Controller
             ], 200);
     }
 
-  
+    /**
+     * @OA\Post(
+     *     path="/users",
+     *     summary="Create a new user",
+     *     tags={"Users"},
+     *     @OA\RequestBody(
+     *         ref="#/components/requestBodies/CreateUser"  
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/User"  
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User created successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to create user",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to create user"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The title field is required."
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreUserRequest $request)
     {
         $validatedData = $request->validated();
@@ -37,6 +136,39 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/users/{id}",
+     *     summary="Retrieve a specific user",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         description="The ID of the user"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User retrieved successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User not found"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
     public function show(User $user)
     {
         return response()->json([ 
@@ -45,7 +177,58 @@ class UserController extends Controller
             ], 200);
     }
 
-
+    
+    /**
+     * @OA\Put(
+     *     path="/users/{id}",
+     *     summary="Update an existing user",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         description="The ID of the user to update"
+     *     ),
+     *     @OA\RequestBody(
+     *         ref="#/components/requestBodies/UpdateUser"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="user updated successfully",
+     *         ref="#/components/schemas/User"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to update user",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to update user"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation Error",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The title field is required."
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function update(UpdateUserRequest $request, User $user)
     {
         $validatedData = $request->validated();
@@ -57,6 +240,49 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Delete(
+     *     path="/users/{id}",
+     *     summary="Delete a user",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the user to delete",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="User deleted successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to delete user",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to delete User"
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 example="Detailed error message"
+     *             )
+     *         )
+     *     ),
+     * )
+     */
+
+ 
     public function destroy(User $user)
     {
         $user->delete();
