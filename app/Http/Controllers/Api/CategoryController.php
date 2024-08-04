@@ -37,6 +37,7 @@ class CategoryController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/Category")
      * 
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -66,6 +67,7 @@ class CategoryController extends Controller
      *     @OA\RequestBody(
      *         ref="#/components/requestBodies/CreateCategory"  
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *         response=201,
      *         description="Category created successfully",
@@ -161,6 +163,7 @@ class CategoryController extends Controller
      *         ),
      *         description="The ID of the category"
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *         response=200,
      *             ref="#/components/schemas/Category"),
@@ -207,6 +210,7 @@ class CategoryController extends Controller
      *         response=201,
      *         ref="#/components/schemas/Category"
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *         response=500,
      *         description="Failed to update category",
@@ -285,6 +289,7 @@ class CategoryController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Category deleted successfully",
@@ -365,6 +370,7 @@ class CategoryController extends Controller
      *             )
      *         )
      *     ),
+     *     security={{"bearer":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Import Categories successful",

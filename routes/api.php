@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\PermissionController;
 //     return $request->user();
 // });
 
-// Route::middleware(['auth:api'])->group(function(){
+Route::middleware(['auth:api'])->group(function(){
 
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
     Route::post('products', [ProductController::class, 'store'])->name('products.store');
@@ -52,7 +52,7 @@ use App\Http\Controllers\Api\PermissionController;
     // });
 
 
-// });
+});
 
 Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
 Route::post("login" , [AuthController::class , 'login'])->name('login'); 
