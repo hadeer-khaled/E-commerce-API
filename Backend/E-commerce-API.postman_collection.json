@@ -1,0 +1,820 @@
+{
+	"info": {
+		"_postman_id": "1a7ed53a-c2c5-4886-9a51-42e1ebc1c920",
+		"name": "E-commerce-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36680147"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}products"
+					},
+					"response": []
+				},
+				{
+					"name": "product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}products/23"
+					},
+					"response": []
+				},
+				{
+					"name": "product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}products/24"
+					},
+					"response": []
+				},
+				{
+					"name": "product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PATCH",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Infinex",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "220000",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+								}
+							]
+						},
+						"url": "{{base_url}}products/14"
+					},
+					"response": []
+				},
+				{
+					"name": "product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Oppo16",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c"
+								},
+								{
+									"key": "price",
+									"value": "8600",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}products"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}categories"
+					},
+					"response": []
+				},
+				{
+					"name": "category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}categories\\1"
+					},
+					"response": []
+				},
+				{
+					"name": "category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Foods",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+								}
+							]
+						},
+						"url": "{{base_url}}categories"
+					},
+					"response": []
+				},
+				{
+					"name": "category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PATCH",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "food2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c"
+								}
+							]
+						},
+						"url": "{{base_url}}categories/5"
+					},
+					"response": []
+				},
+				{
+					"name": "import categories",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "categories",
+									"type": "file",
+									"src": "postman-cloud:///1ef4d9f3-5c84-41b0-900a-996b4ed650f8"
+								}
+							]
+						},
+						"url": "{{base_url}}categories/import"
+					},
+					"response": []
+				},
+				{
+					"name": "category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}categories/4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjM5MTE0NmY0ZDUxYzlkZmZmNzBmMWMzMWZkNjU4MTYyMTYwMDAyOWYxMWRlZmEwMTgwYzFlNzk2YmE0NmRkZGM3YTkxYjVkMjVlNDJhYTYiLCJpYXQiOjE3MjIzMjM1MDMuNTg4NDgsIm5iZiI6MTcyMjMyMzUwMy41ODg0ODYsImV4cCI6MTc1Mzg1OTUwMy41MTgzMjEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.BhAWmNXP4uVFOX4ngCO8p0fQ4Ff6yscP3nMaN7CFsQVUpEbuf7u5YzUXyT1qoABB_gohBMVrwg5R-SiOIAVCO1s65WyIb0JaQFgrqcMl-lLGcD16ifmqRUA504r4kDZHSFYV2USGvTgH0pdi0XM160sK07G-FhRaAeyQcXN8xgJ09zj1m9ifSSNHEVZDBGJKk8cpbhto7FwUutuMJOOexHOsKcvClxhdI1ssW7ZYS_u-Y8k4DX38uQh190GIDek_v9zw89uqBpL4pqaKFm0eGwP5UD--cZ9dlaYayJ46tFInVNzWmKRyCeY1PbVwOMIqpDND-YO2bdwl5A8TR4QMQOe0okTNCjoQAtyqT0ljVoDLBWfvJIgPCYb-zb74yvBrujjNb1WIjv653B1h9Gh3vG91Eetjm_j7cn_flgLmFykMUF13Fc-yoN2sDYyNbM3Wx5QBAv6a0mDzUhtfq6b82vtqaL5Ea6Erbp1jA11sCVAocnOnB69eScB1Xwq3zwSFqQbPANshnRMAp2sDgRrHbDl_uFVr-MWcaRJr0Gf_80WEkVlKc1zVSjQhkM_MPDkw16IzE4JZ8cce4XprVg_ktKcTCGGWdc3vMJGF0uf6JtJv4qkVJXVzk9hTFzmN4GAfwSHY5NLAe5NYXBhuPORHBvRQNl8PYQBF4vjw8D2c9N4",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{base_url}}users/2"
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "omar@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "omar",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}users",
+							"host": [
+								"{{base_url}}users"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "hadeer",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}users/2",
+							"host": [
+								"{{base_url}}users"
+							],
+							"path": [
+								"2"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}users/4"
+					},
+					"response": []
+				},
+				{
+					"name": "add role to user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "roles[0]",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}add-role-to-user/6",
+							"host": [
+								"{{base_url}}add-role-to-user"
+							],
+							"path": [
+								"6"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}roles"
+					},
+					"response": []
+				},
+				{
+					"name": "Add perm to role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "permissions[0]",
+									"value": "show users",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[1]",
+									"value": "edit users",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[2]",
+									"value": "delete users",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[3]",
+									"value": "show products",
+									"type": "text"
+								},
+								{
+									"key": "permissions[4]",
+									"value": "edit products",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[5]",
+									"value": "delete products",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[6]",
+									"value": "show categories",
+									"type": "text"
+								},
+								{
+									"key": "permissions[7]",
+									"value": "edit categories",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[8]",
+									"value": "delete categories",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{base_url}}add-permission-to-role/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permisssion",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "show users",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "edit users",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "delete users",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "show products",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "edit products",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "delete products",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "show categories",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "edit categories",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "delete categories",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{base_url}}permissions"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "rahma",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "rahma@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "hadeer@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}login"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{access_token}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
