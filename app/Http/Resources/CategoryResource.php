@@ -19,6 +19,7 @@ class CategoryResource extends JsonResource
             "id"=>$this->id,
             "title"=>$this->title,
             'image' => $this->attachment ?  asset('storage/' . $this->attachment->filename) : null  ,
+            'products'=>$this->products
         ];
     }
 }
