@@ -39,6 +39,7 @@ use App\Http\Controllers\Api\PermissionController;
     Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import');
+    Route::PUT('categories/{category}/upload-image', [CategoryController::class, 'uploadImage'])->name('categories.upload-image');
 
 
     // Route::middleware('role:admin')->group(function(){
