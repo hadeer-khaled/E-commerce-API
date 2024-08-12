@@ -36,7 +36,7 @@ use App\Http\Controllers\Api\PermissionController;
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
-    Route::patch('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::PUT('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import');
     Route::PUT('categories/{category}/upload-image', [CategoryController::class, 'uploadImage'])->name('categories.upload-image');

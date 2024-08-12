@@ -121,17 +121,16 @@ class CategoryController extends Controller
             $validatedData = $request->validated();
             $category = Category::create($validatedData);
     
-            // =================== USE uploadImage instead ===================
-            // if ($request->hasFile('image')) {
-            //         $image = $request->file('image');
-            //         $path = $image->store('images', 'public');
+            if ($request->hasFile('image')) {
+                    $image = $request->file('image');
+                    $path = $image->store('images', 'public');
     
-            //         Attachment::create([
-            //             'filename' => $path,
-            //             'attachable_id' => $category->id,
-            //             'attachable_type' => Category::class,
-            //         ]);
-            // }
+                    Attachment::create([
+                        'filename' => $path,
+                        'attachable_id' => $category->id,
+                        'attachable_type' => Category::class,
+                    ]);
+            }
     
             DB::commit();
     
@@ -249,19 +248,17 @@ class CategoryController extends Controller
             $validatedData = $request->validated();
             $category->update($validatedData);
     
-            // =================== USE uploadImage instead ===================
+            if ($request->hasFile('image')) {
+                    $category->attachment()->delete();
+                    $image = $request->file('image');
+                    $path = $image->store('images', 'public');
 
-            // if ($request->hasFile('image')) {
-            //         $category->attachment()->delete();
-            //         $image = $request->file('image');
-            //         $path = $image->store('images', 'public');
-
-            //         Attachment::create([
-            //             'filename' => $path,
-            //             'attachable_id' => $category->id,
-            //             'attachable_type' => Category::class,
-            //         ]);
-            // }
+                    Attachment::create([
+                        'filename' => $path,
+                        'attachable_id' => $category->id,
+                        'attachable_type' => Category::class,
+                    ]);
+            }
     
             DB::commit();
     
