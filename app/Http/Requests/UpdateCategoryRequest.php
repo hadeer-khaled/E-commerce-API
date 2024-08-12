@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +23,10 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['nullable', 'string' , 'max:255' , 'unique:categories'],
+            'title' => ['nullable', 'string' ,
+                         'max:255' ,
+                         Rule::unique('categories')->ignore($this->category->id)
+                        ],
             'image' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
         ];
     }
