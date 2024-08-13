@@ -25,7 +25,15 @@ use App\Http\Controllers\Api\PermissionController;
 //     return $request->user();
 // });
 
-// Route::middleware(['auth:api'])->group(function(){
+Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
+Route::post("login" , [AuthController::class , 'login'])->name('login'); 
+
+Route::apiResource('roles',RoleController::class);
+Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermissionToRole']);
+
+Route::apiResource('permissions', PermissionController::class);
+
+Route::middleware(['auth:api'])->group(function(){
 
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
     Route::post('products', [ProductController::class, 'store'])->name('products.store');
@@ -53,12 +61,6 @@ use App\Http\Controllers\Api\PermissionController;
     // });
 
 
-// });
+    Route::post("logout" , [AuthController::class , 'logout'])->name('logout'); 
+});
 
-Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
-Route::post("login" , [AuthController::class , 'login'])->name('login'); 
-
-Route::apiResource('roles',RoleController::class);
-Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermissionToRole']);
-
-Route::apiResource('permissions', PermissionController::class);
