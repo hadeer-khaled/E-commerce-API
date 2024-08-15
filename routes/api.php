@@ -50,7 +50,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::PUT('categories/{category}/upload-image', [CategoryController::class, 'uploadImage'])->name('categories.upload-image');
 
 
-    // Route::middleware('role:admin')->group(function(){
+    Route::middleware('role:admin')->group(function(){
 
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::post('users', [UserController::class, 'store'])->name('users.store');
@@ -58,7 +58,7 @@ Route::middleware(['auth:api'])->group(function(){
         Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');   
         Route::post('add-role-to-user/{user}',[UserController::class , 'addRoleToUser']);
-    // });
+    });
 
 
     Route::post("logout" , [AuthController::class , 'logout'])->name('logout'); 

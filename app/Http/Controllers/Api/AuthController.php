@@ -212,11 +212,21 @@ class AuthController extends Controller
         if($loginStatus){
             $user = Auth::user();
             $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
-            $user["access_token"] = $tokens["access_token"];
-            $user["refresh_token"] = $tokens["refresh_token"];
+            $responseData = [
+                "id" => $user->id,
+                "name" => $user->name,
+                "email" => $user->email,
+                "email_verified_at" => $user->email_verified_at,
+                "created_at" => $user->created_at,
+                "updated_at" => $user->updated_at,
+                "access_token" => $tokens["access_token"],
+                "refresh_token" => $tokens["refresh_token"],
+                "roles" => $user->getRoleNames(),
+            ];
             return response()->json([
                 "message"=>"user logged in successfully",
-                "data"=>$user,
+                "data"=>$responseData,
+                
             ],200);
         }
 
