@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 use Exception;
 
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -19,13 +21,22 @@ use App\Models\Attachment;
 class ProductController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with("attachments","category")->paginate(2);
+        $perPage    =  $request->query('perPage', 8);
+        $search     =  $request->query('search', null);
+        $products = Product::with("attachments","category")
+        ->when($search , function($query , $search){
+            return $query->where('title' , 'like' , "%{$search}%");
+        })
+        ->paginate($perPage);
+
+        $productsPaginate = Product::paginate(8);
 
         return response()->json([
-            "data" => ProductResource::collection($products),
             "message" => "Products retrieved successfully",
+            "data" => ProductResource::collection($products),
+            "links"=> $products->toArray()['links'],
         ], 200);
     }
 
