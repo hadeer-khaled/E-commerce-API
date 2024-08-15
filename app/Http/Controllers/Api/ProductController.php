@@ -39,8 +39,7 @@ class ProductController extends Controller
             $product = Product::create($validatedData);
     
             if ($request->hasFile('images')) {
-                // foreach ($request->file('images') as $image) {
-                    $image = $request->file('images');
+                foreach ($request->file('images') as $image) {
                     $path = $image->store('images', 'public');
     
                     Attachment::create([
@@ -48,7 +47,7 @@ class ProductController extends Controller
                         'attachable_id' => $product->id,
                         'attachable_type' => Product::class,
                     ]);
-                // }
+                }
             }
     
             DB::commit();
@@ -88,17 +87,16 @@ class ProductController extends Controller
             if ($request->hasFile('images')) {
                 $product->attachments()->delete();
     
-                // foreach ($request->file('images') as $image) {
-                    $image = $request->file('images');
+                foreach ($request->file('images') as $image) {
+                    // $image = $request->file('images');
                     $path = $image->store('images', 'public');
-                    $imageUrl = asset('storage/' . $path);
     
                     Attachment::create([
                         'filename' => $path,
                         'attachable_id' => $product->id,
                         'attachable_type' => Product::class,
                     ]);
-                // }
+                }
             }
     
             DB::commit();
