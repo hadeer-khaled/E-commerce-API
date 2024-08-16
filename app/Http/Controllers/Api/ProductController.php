@@ -46,21 +46,14 @@ class ProductController extends Controller
         DB::beginTransaction();
     
         try {
-            $validatedData = $request->validated();
-            $product = Product::create($validatedData);
-    
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $path = $image->store('images', 'public');
-    
-                    Attachment::create([
-                        'filename' => $path,
-                        'attachable_id' => $product->id,
-                        'attachable_type' => Product::class,
-                    ]);
+            $product = Product::create($request->validated());
+
+            if ($request->has('paths') && count($request->input('paths')) > 0) {
+                foreach ($request->input('paths') as $path) {
+                    $product->attachments()->create(['filename' => $path]);
                 }
             }
-    
+            
             DB::commit();
     
             return response()->json([
@@ -154,5 +147,24 @@ class ProductController extends Controller
             ], 500);
         }
     }
+    public function storeImages(Request $request)
+    {
+   
+        $storedPaths = [];
+    
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                try {
+                    $path = $image->store('images', 'public');
+                    $storedPaths[] = $path;
+                } catch (Exception $e) {
+                    return response()->json(['error' => 'Error storing image: ' . $e->getMessage()], 500);
+                }
+            }
+        }
+    
+        return response()->json(['message' => 'Images stored successfully', 'paths' => $storedPaths], 200);
+    }
+    
     
 }

@@ -40,6 +40,7 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::patch('products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::post('products/store-images' , [ProductController::class , 'storeImages'])->name('products.store-images');
 
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
