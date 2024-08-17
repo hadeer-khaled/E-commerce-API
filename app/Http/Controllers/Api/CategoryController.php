@@ -51,17 +51,19 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $perPage    =  $request->query('perPage', 8);
+        $perPage    =  $request->query('perPage', 4);
         $search     =  $request->query('search', null);
         $categories =  Category::with("attachment")
                         ->when($search , function($query , $search){
                             return $query->where('title' , 'like' , "%{$search}%");
                         })
                         ->paginate($perPage);
+        $categoriesPaginate = Category::paginate(8);
 
         return response()->json([
-            "data" => $categories,
             "message" => "Categories retrieved successfully",
+            "data" => CategoryResource::collection($categories),
+            "links"=> $categories->toArray()['links'],
         ], 200);
     }
     

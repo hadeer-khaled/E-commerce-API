@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $perPage    =  $request->query('perPage', 8);
+        $perPage    =  $request->query('perPage', 4);
         $search     =  $request->query('search', null);
         $products = Product::with("attachments","category")
         ->when($search , function($query , $search){
@@ -87,22 +87,14 @@ class ProductController extends Controller
         try {
             $validatedData = $request->validated();
             $product->update($validatedData);
-    
-            if ($request->hasFile('images')) {
+                
+            if ($request->has('paths') && count($request->input('paths')) > 0) {
                 $product->attachments()->delete();
-    
-                foreach ($request->file('images') as $image) {
-                    // $image = $request->file('images');
-                    $path = $image->store('images', 'public');
-    
-                    Attachment::create([
-                        'filename' => $path,
-                        'attachable_id' => $product->id,
-                        'attachable_type' => Product::class,
-                    ]);
+                foreach ($request->input('paths') as $path) {
+                    $product->attachments()->create(['filename' => $path]);
                 }
             }
-    
+                
             DB::commit();
     
             return response()->json([
