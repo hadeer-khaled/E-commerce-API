@@ -21,6 +21,9 @@ class PermissionController extends Controller
             'name'=>['required', 'string' , 'unique:permissions,name']
         ]);
         $permission = Permission::create(['name' => $request->name]);
+        return response()->json([
+            "message" => "permission created successfully",
+        ], 200);
     }
 
    

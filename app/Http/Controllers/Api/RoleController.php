@@ -21,6 +21,9 @@ class RoleController extends Controller
             'name'=>['required', 'string' , 'unique:roles,name']
         ]);
         $role = Role::create(['name' => $request->name , 'guard_name' => 'api']);
+        return response()->json([
+            "message" => "role created successfully",
+        ], 200);
     }
 
    

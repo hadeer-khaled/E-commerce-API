@@ -64,7 +64,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::get();
+        $users = User::all();
         return response()->json([ 
             "data" => UserResource::collection($users),
             "message" => "users retrieved successfully"
@@ -125,11 +125,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $validatedData = $request->validated();
+        // $validatedData = $request->validated();
         // dd($validatedData['name']);
-        $user = User::create($validatedData);
+        $user = User::create($request->validated());
         return response()->json([ 
-            "data" => new UserResource($user),
+            "data" => UserResource::make($user),
             "message" => "user created successfully"
         ], 201);
 
@@ -172,7 +172,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         return response()->json([ 
-            "data" => new UserResource($user),
+            "data" => UserResource::make($user),
             "message" => "user retrieved successfully"
             ], 200);
     }
@@ -231,10 +231,10 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $validatedData = $request->validated();
-        $user->update($validatedData);
+        // $validatedData = $request->validated();
+        $user->update($request->validated());
         return response()->json([ 
-            "data" => new UserResource($user->fresh()),
+            "data" => UserResource::make($user->fresh()),
             "message" => "user updated successfully"
         ], 200);
     }

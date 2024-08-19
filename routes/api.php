@@ -29,10 +29,10 @@ use App\Http\Controllers\Api\PasswordResetController;
 Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
 Route::post("login" , [AuthController::class , 'login'])->name('login'); 
 
-Route::apiResource('roles',RoleController::class);
-Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermissionToRole']);
+Route::apiResource('roles',RoleController::class)->only(['store']);
+Route::post('roles/{role}/add-permission',[RoleController::class , 'addPermissionToRole']);
 
-Route::apiResource('permissions', PermissionController::class);
+Route::apiResource('permissions', PermissionController::class)->only(['store']);
 
 Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
@@ -62,7 +62,7 @@ Route::middleware(['auth:api'])->group(function(){
         Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
         Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');   
-        Route::post('add-role-to-user/{user}',[UserController::class , 'addRoleToUser']);
+        Route::post('users/{user}/add-role',[UserController::class , 'addRoleToUser']);
     });
 
 

@@ -85,8 +85,8 @@ class ProductController extends Controller
         DB::beginTransaction();
     
         try {
-            $validatedData = $request->validated();
-            $product->update($validatedData);
+            // $validatedData = $request->validated();
+            $product->update($request->validated());
                 
             if ($request->has('paths') && count($request->input('paths')) > 0) {
                 $product->attachments()->delete();
