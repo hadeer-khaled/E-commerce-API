@@ -22,8 +22,12 @@ use App\Imports\CategoriesImport ;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
 
+use App\Traits\HandlesAttachments;
+
 class CategoryController extends Controller
 {
+    use HandlesAttachments;
+
 
     /**
      * @OA\Get(
@@ -58,7 +62,6 @@ class CategoryController extends Controller
                             return $query->where('title' , 'like' , "%{$search}%");
                         })
                         ->paginate($perPage);
-        $categoriesPaginate = Category::paginate(8);
 
         return response()->json([
             "message" => "Categories retrieved successfully",
@@ -126,19 +129,11 @@ class CategoryController extends Controller
         DB::beginTransaction();
     
         try {
-            $validatedData = $request->validated();
-            $category = Category::create($validatedData);
+            // $validatedData = $request->validated();
+            $category = Category::create($request->validated());
     
-            if ($request->hasFile('image')) {
-                    $image = $request->file('image');
-                    $path = $image->store('images', 'public');
-    
-                    Attachment::create([
-                        'filename' => $path,
-                        'attachable_id' => $category->id,
-                        'attachable_type' => Category::class,
-                    ]);
-            }
+            $this->handleAttachment($category, $request , 'image' , false);
+
     
             DB::commit();
     
@@ -253,8 +248,8 @@ class CategoryController extends Controller
         DB::beginTransaction();
     
         try {
-            $validatedData = $request->validated();
-            $category->update($validatedData);
+            // $validatedData = $request->validated();
+            $category->update($request->validated());
     
             if ($request->hasFile('image')) {
                     $category->attachment()->delete();
