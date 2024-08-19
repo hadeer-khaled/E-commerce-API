@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,19 +34,22 @@ Route::post('add-permission-to-role/{role}',[RoleController::class , 'addPermiss
 
 Route::apiResource('permissions', PermissionController::class);
 
+Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+
 Route::middleware(['auth:api'])->group(function(){
 
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
     Route::post('products', [ProductController::class, 'store'])->name('products.store');
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
-    Route::patch('products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::post('products/store-images' , [ProductController::class , 'storeImages'])->name('products.store-images');
 
     Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
-    Route::PUT('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import');
     Route::PUT('categories/{category}/upload-image', [CategoryController::class, 'uploadImage'])->name('categories.upload-image');
