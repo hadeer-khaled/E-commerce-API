@@ -10,8 +10,14 @@
 			"name": "Product",
 			"item": [
 				{
-					"name": "products",
+					"name": "list products",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -25,9 +31,9 @@
 					"response": []
 				},
 				{
-					"name": "product",
+					"name": "create product",
 					"request": {
-						"method": "DELETE",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
@@ -35,14 +41,39 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}products/23"
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "product with images",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "16",
+									"type": "text"
+								},
+								{
+									"key": "paths[0]",
+									"value": "images/s08PCJHlTmmEIRHyk6TLKEb1MWeAFOZsuoOfU53o.png",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}products"
 					},
 					"response": []
 				},
 				{
-					"name": "product",
+					"name": "store images",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
@@ -50,12 +81,45 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}products/24"
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Samsung A50",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "9500",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category_id",
+									"value": "15",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "images[0]",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+								},
+								{
+									"key": "images[1]",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c"
+								}
+							]
+						},
+						"url": "{{base_url}}products/store-images"
 					},
 					"response": []
 				},
 				{
-					"name": "product",
+					"name": "update product",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -70,12 +134,12 @@
 							"formdata": [
 								{
 									"key": "_method",
-									"value": "PATCH",
+									"value": "PUT",
 									"type": "text"
 								},
 								{
 									"key": "title",
-									"value": "Infinex",
+									"value": "test test",
 									"type": "text"
 								},
 								{
@@ -85,24 +149,25 @@
 								},
 								{
 									"key": "category_id",
-									"value": "1",
+									"value": "16",
 									"type": "text"
 								},
 								{
 									"key": "images",
 									"type": "file",
-									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392",
+									"disabled": true
 								}
 							]
 						},
-						"url": "{{base_url}}products/14"
+						"url": "{{base_url}}products/22"
 					},
 					"response": []
 				},
 				{
-					"name": "product",
+					"name": "show product",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Accept",
@@ -110,32 +175,22 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "title",
-									"value": "Oppo16",
-									"type": "text"
-								},
-								{
-									"key": "images",
-									"type": "file",
-									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c"
-								},
-								{
-									"key": "price",
-									"value": "8600",
-									"type": "text"
-								},
-								{
-									"key": "category_id",
-									"value": "1",
-									"type": "text"
-								}
-							]
-						},
-						"url": "{{base_url}}products"
+						"url": "{{base_url}}products/22"
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}products/23"
 					},
 					"response": []
 				}
@@ -145,7 +200,7 @@
 			"name": "Category",
 			"item": [
 				{
-					"name": "categories",
+					"name": "list categories",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -160,7 +215,73 @@
 					"response": []
 				},
 				{
-					"name": "category",
+					"name": "create category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "test trait",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+								}
+							]
+						},
+						"url": "{{base_url}}categories"
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Foods",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{base_url}}categories/16"
+					},
+					"response": []
+				},
+				{
+					"name": "show category",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -170,12 +291,27 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}categories\\1"
+						"url": "{{base_url}}categories\\16"
 					},
 					"response": []
 				},
 				{
-					"name": "category",
+					"name": "delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}categories/5"
+					},
+					"response": []
+				},
+				{
+					"name": "upload image",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -191,52 +327,38 @@
 								{
 									"key": "title",
 									"value": "Foods",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
-								}
-							]
-						},
-						"url": "{{base_url}}categories"
-					},
-					"response": []
-				},
-				{
-					"name": "category",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "_method",
-									"value": "PATCH",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "food2",
 									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c"
+									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
 								}
 							]
 						},
-						"url": "{{base_url}}categories/5"
+						"url": {
+							"raw": "{{base_url}}categories/9/upload-image",
+							"host": [
+								"{{base_url}}categories"
+							],
+							"path": [
+								"9",
+								"upload-image"
+							],
+							"query": [
+								{
+									"key": "image",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -262,21 +384,6 @@
 							]
 						},
 						"url": "{{base_url}}categories/import"
-					},
-					"response": []
-				},
-				{
-					"name": "category",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": "{{base_url}}categories/4"
 					},
 					"response": []
 				}
@@ -329,7 +436,7 @@
 								"disabled": true
 							}
 						],
-						"url": "{{base_url}}users/2"
+						"url": "{{base_url}}users/1"
 					},
 					"response": []
 				},
@@ -475,7 +582,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}users/4"
+						"url": "{{base_url}}users/8"
 					},
 					"response": []
 				},
@@ -507,12 +614,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}add-role-to-user/6",
+							"raw": "{{base_url}}users/9/add-role",
 							"host": [
-								"{{base_url}}add-role-to-user"
+								"{{base_url}}users"
 							],
 							"path": [
-								"6"
+								"9",
+								"add-role"
 							],
 							"query": [
 								{
@@ -551,7 +659,7 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "admin",
+									"value": "test",
 									"type": "text"
 								}
 							]
@@ -628,7 +736,7 @@
 								}
 							]
 						},
-						"url": "{{base_url}}add-permission-to-role/1"
+						"url": "{{base_url}}roles/1/add-permission"
 					},
 					"response": []
 				}
@@ -732,12 +840,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "rahma",
+									"value": "user",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "rahma@gmail.com",
+									"value": "user@gmail.com",
 									"type": "text"
 								},
 								{
@@ -772,17 +880,113 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "hadeer@gmail.com",
+									"value": "hadeer.khaled.elmalah@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "55555",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}login"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiYWQzOTRlYTYyZTg3ZmYyNDg2OWViYjhiOTQwNmMxNGVkMDVjZDBmMjg4NDU4ZGIyNTFjNmI4NTgwMjkwNmU0OGMzY2ZmNzRmY2M5M2ZiZmMiLCJpYXQiOjE3MjM2MzcyNTEuNjkzODUxLCJuYmYiOjE3MjM2MzcyNTEuNjkzODU4LCJleHAiOjE3NTUxNzMyNTEuNjY1MTk4LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.GR5KgBj0NkXafIa65HPo9u_io6oIh3SCzz7_nGVgvLlZlUGRVnniDx_daLqb3w-pBE1_pKx-ceBebUFMN5-uBcmjbSK3TukoMHcEaJXqRk345kXARyi8H08SvqQRkQCVkZ760B_qW17yhKdkC4PLe0zZZMEA5zev0ZUkB_y1g3F1qfWBMtgcUZMIVJpegEgYQM9zQqH9JX7j7SuylTGvhBImZeYSH6pWoCd2dPv67Qji7XbYMfv3fFwt9Ma_lt1i640NS9lqJmX-PAnoMzBxXvOZYilUUfFWxHqlSWu2UEQjNyfESAVKksevSowakNFN5MA0DTJZzR2_7DswbUrZOYaftgcB-yXgaezogD2-Ap9O5H1NX1C099MBs0JtcmUXt4MAM20GOME8UehrYJIfwSAYn1dCftg69zeZHQ228coPldzyfnlYFyI-X16sKBQMC50aFXZ1qt7LpJgXgFpbijGqUCkhIh82DbT13KC-_dj8xwD_FjfSMn6A5l_9dfoUd4SJQVmDmwzcrN8TQ2TDHZm4ZaxNRex6Yi-7HK8tLpTgsPDiCWfRQTDt29CUYcGO-ErpvOV40MsgjB56c6-oSsnU099nQhHVJ6yfBClaE2986pIsbVdlfKz_7fCb6yfWdYpfe1oqFA1C2iBQDqZC-DLXl9-Wemp-vEg2qDvRKh0",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{base_url}}logout"
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "hadeer.khaled.elmalah@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base_url}}forgot-password"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "hadeerkhaled257@gmail.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "123",
 									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "token",
+									"value": "5a134ca03882f8698a678f89c68a3d0a47972891ee05c0c04c5ab257fe9d7e86",
+									"type": "text"
 								}
 							]
 						},
-						"url": "{{base_url}}login"
+						"url": "{{base_url}}reset-password"
 					},
 					"response": []
 				}
