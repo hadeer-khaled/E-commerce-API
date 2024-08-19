@@ -20,7 +20,7 @@ class RoleController extends Controller
         $request->validate([
             'name'=>['required', 'string' , 'unique:roles,name']
         ]);
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create(['name' => $request->name , 'guard_name' => 'api']);
     }
 
    

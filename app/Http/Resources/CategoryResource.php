@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ProductResource;
 
 class CategoryResource extends JsonResource
 {
@@ -19,7 +20,8 @@ class CategoryResource extends JsonResource
             "id"=>$this->id,
             "title"=>$this->title,
             'image' => $this->attachment ?  asset('storage/' . $this->attachment->filename) : null  ,
-            'products'=>$this->products
+            'products'=>ProductResource::collection($this->products)
+            
         ];
     }
 }
