@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ImageResource;
 
 class ProductResource extends JsonResource
 {
@@ -22,9 +23,11 @@ class ProductResource extends JsonResource
             "price"=>$this->price,
             "category_id"=>$this->category->id,
             "category"=>$this->category->title,
-            'images' => $this->attachments->map(function ($image) {
-                return asset('storage/' . $image->filename);
-            }),
+            // 'images' => $this->attachments->map(function ($image) {
+            //     return asset('storage/' . $image->filename);
+            // }),
+            "images"=> $this->attachments ?  $this->attachments  : null
+
         ];
     }
 }

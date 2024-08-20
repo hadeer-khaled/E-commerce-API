@@ -14,6 +14,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ImageResource;
 
 use App\Models\Product;
 use App\Models\Attachment;
@@ -23,15 +24,17 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $perPage    =  $request->query('perPage', 4);
-        $search     =  $request->query('search', null);
-        $products = Product::with("attachments","category")
+        $perPage              =  $request->query('perPage', 4);
+        $search               =  $request->query('search', null);
+        $selectedCategoryId     =  $request->query('category', null);
+        $products             = Product::with("attachments","category")
         ->when($search , function($query , $search){
             return $query->where('title' , 'like' , "%{$search}%");
+        })      
+        ->when($selectedCategoryId, function ($query, $selectedCategoryId) {
+            return $query->where('category_id', $selectedCategoryId);
         })
         ->paginate($perPage);
-
-        $productsPaginate = Product::paginate(8);
 
         return response()->json([
             "message" => "Products retrieved successfully",
@@ -48,9 +51,13 @@ class ProductController extends Controller
         try {
             $product = Product::create($request->validated());
 
-            if ($request->has('paths') && count($request->input('paths')) > 0) {
-                foreach ($request->input('paths') as $path) {
-                    $product->attachments()->create(['filename' => $path]);
+            if ($request->has('images') && count($request->input('images')) > 0) {
+                foreach ($request->input('images') as $image) {
+                    $product->attachments()->create([
+                        'original_filename' => $image["original_filename"],
+                        'storage_filename' => $image['storage_filename'],
+                        'url' => $image['url']
+                    ]);
                 }
             }
             
@@ -91,7 +98,7 @@ class ProductController extends Controller
             if ($request->has('paths') && count($request->input('paths')) > 0) {
                 $product->attachments()->delete();
                 foreach ($request->input('paths') as $path) {
-                    $product->attachments()->create(['filename' => $path]);
+                    $product->attachments()->create(['storage_filename' => $path]);
                 }
             }
                 
@@ -141,22 +148,30 @@ class ProductController extends Controller
     }
     public function storeImages(Request $request)
     {
-   
-        $storedPaths = [];
-    
+        $storedImages = [];
+        
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 try {
+                    $originalName = $image->getClientOriginalName();
+                    $storageName = $image->hashName();
                     $path = $image->store('images', 'public');
-                    $storedPaths[] = $path;
+                    $url = asset('storage/' . $path);
+    
+                    $storedImages[] = [
+                        'original_filename' => $originalName,
+                        'storage_filename' => $storageName,
+                        'url' => $url,
+                    ];
                 } catch (Exception $e) {
                     return response()->json(['error' => 'Error storing image: ' . $e->getMessage()], 500);
                 }
             }
         }
-    
-        return response()->json(['message' => 'Images stored successfully', 'paths' => $storedPaths], 200);
+        
+        return response()->json(['message' => 'Images stored successfully', 'images' => $storedImages], 200);
     }
+    
     
     
 }

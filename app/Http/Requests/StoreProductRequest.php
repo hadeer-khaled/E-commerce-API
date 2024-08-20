@@ -28,7 +28,6 @@ class StoreProductRequest extends FormRequest
             'category_id'=>['required' , 'exists:categories,id'],
             'paths' => ['nullable'],
             'paths.*' => ['nullable','string'],
-
         ];
     }
 }
