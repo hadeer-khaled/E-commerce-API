@@ -16,12 +16,14 @@ class PasswordResetController extends Controller
 {
     public function forgotPassword(Request $request)
     {
+    
         $request->validate([
             'email' => 'required|email',
         ]);
 
         $status = Password::sendResetLink(
-            $request->only('email')
+            $request->only('email'),
+          
         );
 
         if ($status == Password::RESET_LINK_SENT) {
@@ -34,46 +36,77 @@ class PasswordResetController extends Controller
             'email' => [trans($status)],
         ]);
     }
+
+    // public function resetPassword(ResetPasswordRequest $request)
+    // {
+
+    //     $matchingRecord = null;
+
+    //     $request->validated();
+
+    //     $tokenRecords = DB::table('password_reset_tokens')->get();
+
+    //     foreach ($tokenRecords as $tokenRecord) {
+    //         if (Hash::check( $request->token, $tokenRecord->token)) {
+    //             $matchingRecord = $tokenRecord;
+    //             break;
+    //         }
+    //     }
+
+    //     if ($matchingRecord) {
+    //         $request['email'] = $matchingRecord->email;
+
+    //         $credentials = $request->only('email', 'password', 'password_confirmation', 'token');
+
+    //         $status = Password::reset($credentials, function ($user, $password) {
+    //             $user->password = bcrypt($password);
+    //             $user->save();
+    //         });
+
+    //         if ($status == Password::PASSWORD_RESET) {
+    //             return response([
+    //                 'message'=> 'Password reset successfully'
+    //             ]);
+    //         }
+    
+    //         return response([
+    //             'message'=> __($status)
+    //         ], 500);
+    //     }
+    //     return response([
+    //         'message'=> "Cannot find matched token"
+    //     ], 404);
+
+
+    // }
     public function resetPassword(ResetPasswordRequest $request)
     {
 
-        $matchingRecord = null;
-
         $request->validated();
 
-        $tokenRecords = DB::table('password_reset_tokens')->get();
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
 
-        foreach ($tokenRecords as $tokenRecord) {
-            if (Hash::check( $request->token, $tokenRecord->token)) {
-                $matchingRecord = $tokenRecord;
-                break;
+                $user->tokens()->delete();
+
+                event(new PasswordReset($user));
             }
-        }
+        );
 
-        if ($matchingRecord) {
-            $request['email'] = $matchingRecord->email;
-
-            $credentials = $request->only('email', 'password', 'password_confirmation', 'token');
-
-            $status = Password::reset($credentials, function ($user, $password) {
-                $user->password = bcrypt($password);
-                $user->save();
-            });
-
-            if ($status == Password::PASSWORD_RESET) {
-                return response([
-                    'message'=> 'Password reset successfully'
-                ]);
-            }
-    
+        if ($status == Password::PASSWORD_RESET) {
             return response([
-                'message'=> __($status)
-            ], 500);
+                'message'=> 'Password reset successfully'
+            ]);
         }
-        return response([
-            'message'=> "Cannot find matched token"
-        ], 404);
 
+        return response([
+            'message'=> __($status)
+        ], 500);
 
     }
 

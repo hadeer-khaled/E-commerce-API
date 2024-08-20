@@ -81,7 +81,7 @@ class AuthController extends Controller
     public function register (StoreUserRequest $request){
         // $validatedData = $request->validated();
         $user = User::create($request->validated());
-        // Role::create(['name' => 'user']);
+        Role::create(['name' => 'user']);
         $user->syncRoles('user'); // set the role to "user" by default
         return response()->json([ 
             "message" => "user registered successfully",
