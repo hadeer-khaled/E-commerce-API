@@ -11,6 +11,9 @@
 			"item": [
 				{
 					"name": "list products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -26,7 +29,27 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}products"
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}products?page=3",
+							"host": [
+								"{{base_url}}products"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "3"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -42,29 +65,13 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "title",
-									"value": "product with images",
-									"type": "text"
-								},
-								{
-									"key": "price",
-									"value": "1000",
-									"type": "text"
-								},
-								{
-									"key": "category_id",
-									"value": "16",
-									"type": "text"
-								},
-								{
-									"key": "paths[0]",
-									"value": "images/s08PCJHlTmmEIRHyk6TLKEb1MWeAFOZsuoOfU53o.png",
-									"type": "text"
+							"mode": "raw",
+							"raw": "        {\r\n            \"title\": \"Toyota\",\r\n            \"description\": \"Electric car with autopilot feature.\",\r\n            \"price\": \"40000.00\",\r\n            \"category_id\": 1,\r\n            \"category\": \"Cars\",\r\n                \"images\": [\r\n        {\r\n            \"original_filename\": \"car1.jpg\",\r\n            \"storage_filename\": \"Uc7vrOz5QYEsEAg1j7CbBPTuPyZbgIWiZsxlhjF4.jpg\",\r\n            \"url\": \"http://127.0.0.1:8000/storage/images/Uc7vrOz5QYEsEAg1j7CbBPTuPyZbgIWiZsxlhjF4.jpg\"\r\n        },\r\n        {\r\n            \"original_filename\": \"default_product.png\",\r\n            \"storage_filename\": \"hD6Fr0ZLaZvnlaOXvQnc1HLgUoCWWDj99zzdrL1L.png\",\r\n            \"url\": \"http://127.0.0.1:8000/storage/images/hD6Fr0ZLaZvnlaOXvQnc1HLgUoCWWDj99zzdrL1L.png\"\r\n        }\r\n    ]\r\n            \r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": "{{base_url}}products"
 					},
@@ -105,12 +112,12 @@
 								{
 									"key": "images[0]",
 									"type": "file",
-									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392"
+									"src": "postman-cloud:///1ef5fb82-95d0-4d40-8abf-58ec4fd78e77"
 								},
 								{
 									"key": "images[1]",
 									"type": "file",
-									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c"
+									"src": "postman-cloud:///1ef5fb83-2b7c-4420-87e5-87b3bc086dbd"
 								}
 							]
 						},
@@ -130,37 +137,15 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "_method",
-									"value": "PUT",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "test test",
-									"type": "text"
-								},
-								{
-									"key": "price",
-									"value": "220000",
-									"type": "text"
-								},
-								{
-									"key": "category_id",
-									"value": "16",
-									"type": "text"
-								},
-								{
-									"key": "images",
-									"type": "file",
-									"src": "postman-cloud:///1ef4cdb3-51f5-4790-85b9-da3b1a9d0392",
-									"disabled": true
+							"mode": "raw",
+							"raw": "{\r\n        \"_method\":\"PUT\",\r\n        \"product\":{\r\n            \"id\": 16,\r\n            \"title\": \"Toyota\",\r\n            \"description\": \"Electric car with autopilot feature.\",\r\n            \"price\": \"40000.00\",\r\n            \"category_id\": 1,\r\n            \"category\": \"Cars\"\r\n        },\r\n        \"images\": {\r\n            \"deleted\": [3],\r\n            \"created\": [\r\n                {\r\n                    \"original_filename\": \"bags.jpg\",\r\n                    \"storage_filename\": \"kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\",\r\n                    \"url\": \"http://127.0.0.1:8000/storage/images/kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\"\r\n                },\r\n                {\r\n                    \"original_filename\": \"phones.png\",\r\n                    \"storage_filename\": \"OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\",\r\n                    \"url\": \"http://127.0.0.1:8000/storage/images/OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\"\r\n                }\r\n            ]\r\n        }\r\n}\r\n// {\r\n//         \"_method\":\"PUT\",\r\n//         \"product\":{\r\n//             \"id\": 9,\r\n//             \"title\": \"Louis Vuitton Handbag\",\r\n//             \"description\": \"Luxury handbag with iconic design.\",\r\n//             \"price\": \"2500.00\",\r\n//             \"category_id\": 5,\r\n//             \"category\": \"Bags\"\r\n//         },\r\n//         \"images\": {\r\n//             \"created\": [\r\n//                 {\r\n//                     \"original_filename\": \"bags.jpg\",\r\n//                     \"storage_filename\": \"kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\",\r\n//                     \"url\": \"http://127.0.0.1:8000/storage/images/kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\"\r\n//                 },\r\n//                 {\r\n//                     \"original_filename\": \"phones.png\",\r\n//                     \"storage_filename\": \"OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\",\r\n//                     \"url\": \"http://127.0.0.1:8000/storage/images/OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\"\r\n//                 }\r\n//             ]\r\n//         }\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
-						"url": "{{base_url}}products/22"
+						"url": "{{base_url}}products/9"
 					},
 					"response": []
 				},
@@ -840,12 +825,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "user",
+									"value": "Hadeer",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "user@gmail.com",
+									"value": "hadeer.khaled.elmalah@gmail.com",
 									"type": "text"
 								},
 								{
@@ -885,7 +870,7 @@
 								},
 								{
 									"key": "password",
-									"value": "55555",
+									"value": "123",
 									"type": "text"
 								}
 							]
