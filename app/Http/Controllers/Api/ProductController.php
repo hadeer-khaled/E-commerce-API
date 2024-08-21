@@ -19,8 +19,18 @@ use App\Http\Resources\ImageResource;
 use App\Models\Product;
 use App\Models\Attachment;
 
+use App\Services\ProductService;
+use App\DTO\ProductUpdateDTO;
+
+
 class ProductController extends Controller
 {
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
 
     public function index(Request $request)
     {
@@ -87,47 +97,66 @@ class ProductController extends Controller
     }
 
 
+    // public function update(UpdateProductRequest $request, Product $product)
+    // {
+    //     DB::beginTransaction();
+    
+    //     try {
+    //         $product->update($request->validated());
+
+    //     if ($request->has('images')) {
+    //         if (isset($request->images['deleted']) && count($request->images['deleted']) > 0) {
+    //             foreach ($request->images['deleted'] as $attachmentId) {
+    //                 $product->attachments()->where('id', $attachmentId)->delete();
+    //             }
+    //         }
+
+    //         if (isset($request->images['created']) && count($request->images['created']) > 0) {
+    //             foreach ($request->images['created'] as $image) {
+    //                 $product->attachments()->create([
+    //                     'original_filename' => $image['original_filename'],
+    //                     'storage_filename' => $image['storage_filename'],
+    //                     'url' => $image['url'],
+    //                 ]);
+    //             }
+    //         }
+    //     }
+                                
+    //         DB::commit();
+    
+    //         return response()->json([
+    //             "data" => new ProductResource($product->fresh()),
+    //             "message" => "Product updated successfully",
+    //         ], 201);
+    
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    
+    //         return response()->json([
+    //             "message" => "Failed to update product",
+    //             "error" => $e->getMessage(),
+    //         ], 400);
+    //     }
+    // }
     public function update(UpdateProductRequest $request, Product $product)
     {
-        DB::beginTransaction();
-    
         try {
-            $product->update($request->validated());
+            $dto = ProductUpdateDTO::fromArray($request->all());
 
-        if ($request->has('images')) {
-            if (isset($request->images['deleted']) && count($request->images['deleted']) > 0) {
-                foreach ($request->images['deleted'] as $attachmentId) {
-                    $product->attachments()->where('id', $attachmentId)->delete();
-                }
-            }
+            $updatedProduct = $this->productService->updateProduct($product, $dto);
 
-            if (isset($request->images['created']) && count($request->images['created']) > 0) {
-                foreach ($request->images['created'] as $image) {
-                    $product->attachments()->create([
-                        'original_filename' => $image['original_filename'],
-                        'storage_filename' => $image['storage_filename'],
-                        'url' => $image['url'],
-                    ]);
-                }
-            }
-        }
-                                
-            DB::commit();
-    
             return response()->json([
-                "data" => new ProductResource($product->fresh()),
+                "data" => new ProductResource($updatedProduct),
                 "message" => "Product updated successfully",
-            ], 201);
-    
-        } catch (\Exception $e) {
-            DB::rollBack();
-    
+            ], 200);
+        } catch (Exception $e) {
             return response()->json([
                 "message" => "Failed to update product",
                 "error" => $e->getMessage(),
             ], 400);
         }
     }
+
 
     public function destroy(Product $product)
     {
