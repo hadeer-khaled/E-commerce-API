@@ -26,8 +26,8 @@ class UpdateProductRequest extends FormRequest
             'description' => ['nullable' , 'string'],
             'price'=> ['nullable' , 'numeric'],
             'category_id'=>['nullable' , 'exists:categories,id'],
-            'images' => ['nullable'],
-            'images.*' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
+            // 'images' => ['nullable'],
+            // 'images.*' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg'],
 
         ];
     }

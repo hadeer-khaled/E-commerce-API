@@ -92,16 +92,26 @@ class ProductController extends Controller
         DB::beginTransaction();
     
         try {
-            // $validatedData = $request->validated();
             $product->update($request->validated());
-                
-            if ($request->has('paths') && count($request->input('paths')) > 0) {
-                $product->attachments()->delete();
-                foreach ($request->input('paths') as $path) {
-                    $product->attachments()->create(['storage_filename' => $path]);
+
+        if ($request->has('images')) {
+            if (isset($request->images['deleted']) && count($request->images['deleted']) > 0) {
+                foreach ($request->images['deleted'] as $attachmentId) {
+                    $product->attachments()->where('id', $attachmentId)->delete();
                 }
             }
-                
+
+            if (isset($request->images['created']) && count($request->images['created']) > 0) {
+                foreach ($request->images['created'] as $image) {
+                    $product->attachments()->create([
+                        'original_filename' => $image['original_filename'],
+                        'storage_filename' => $image['storage_filename'],
+                        'url' => $image['url'],
+                    ]);
+                }
+            }
+        }
+                                
             DB::commit();
     
             return response()->json([
