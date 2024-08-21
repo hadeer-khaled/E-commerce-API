@@ -74,7 +74,7 @@ class ProductController extends Controller
             return response()->json([
                 "message" => "Failed to create product",
                 "error" => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
  
@@ -115,7 +115,7 @@ class ProductController extends Controller
             return response()->json([
                 "message" => "Failed to update product",
                 "error" => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
 
@@ -143,7 +143,7 @@ class ProductController extends Controller
             return response()->json([
                 'message' => 'Failed to delete product',
                 'error' => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
     public function storeImages(Request $request)
@@ -164,7 +164,7 @@ class ProductController extends Controller
                         'url' => $url,
                     ];
                 } catch (Exception $e) {
-                    return response()->json(['error' => 'Error storing image: ' . $e->getMessage()], 500);
+                    return response()->json(['error' => 'Error storing image: ' . $e->getMessage()], 400);
                 }
             }
         }

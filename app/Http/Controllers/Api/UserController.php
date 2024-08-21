@@ -95,7 +95,7 @@ class UserController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Failed to create user",
      *         @OA\JsonContent(
      *             @OA\Property(
@@ -201,7 +201,7 @@ class UserController extends Controller
      *         ref="#/components/schemas/User"
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Failed to update user",
      *         @OA\JsonContent(
      *             @OA\Property(
@@ -264,7 +264,7 @@ class UserController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Failed to delete user",
      *         @OA\JsonContent(
      *             @OA\Property(

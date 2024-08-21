@@ -71,7 +71,7 @@ class PasswordResetController extends Controller
     
     //         return response([
     //             'message'=> __($status)
-    //         ], 500);
+    //         ], 400);
     //     }
     //     return response([
     //         'message'=> "Cannot find matched token"
@@ -106,7 +106,7 @@ class PasswordResetController extends Controller
 
         return response([
             'message'=> __($status)
-        ], 500);
+        ], 400);
 
     }
 

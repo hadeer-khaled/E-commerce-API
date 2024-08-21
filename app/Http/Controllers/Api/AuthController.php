@@ -60,7 +60,7 @@ class AuthController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Internal Server Error",
      *         @OA\JsonContent(
      *             @OA\Property(

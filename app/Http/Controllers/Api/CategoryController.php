@@ -95,7 +95,7 @@ class CategoryController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Failed to create category",
      *         @OA\JsonContent(
      *             @OA\Property(
@@ -148,7 +148,7 @@ class CategoryController extends Controller
             return response()->json([
                 "message" => "Failed to create category",
                 "error" => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
 
@@ -215,7 +215,7 @@ class CategoryController extends Controller
      *     ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Failed to update category",
      *         @OA\JsonContent(
      *             @OA\Property(
@@ -276,7 +276,7 @@ class CategoryController extends Controller
             return response()->json([
                 "message" => "Failed to update category",
                 "error" => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
 
@@ -305,7 +305,7 @@ class CategoryController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Failed to delete category",
      *         @OA\JsonContent(
      *             @OA\Property(
@@ -348,7 +348,7 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Failed to delete Category',
                 'error' => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
 
@@ -402,7 +402,7 @@ class CategoryController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=500,
+     *         response=400,
      *         description="Internal Server Error",
      *         @OA\JsonContent(
      *             @OA\Property(
@@ -440,7 +440,7 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Import Categories failed',
                 'error' => $e->getMessage(),
-            ], 500);
+            ], 400);
         }
     }
 
