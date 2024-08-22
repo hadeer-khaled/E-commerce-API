@@ -18,12 +18,15 @@ class UserRepository implements UserRepositoryInterface
 
     public function create(array $data)
     {
-        return User::create($data);
+        $user = User::create($data);
+        $user->syncRoles($data['roles']);
+        return $user;
     }
 
     public function update(User $user, array $data)
     {
         $user->update($data);
+        $user->syncRoles($data['roles']);
         return $user;
     }
 

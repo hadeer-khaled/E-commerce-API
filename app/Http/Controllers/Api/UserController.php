@@ -134,7 +134,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
 
-        $this->userRepository->cteate($request->validated());
+        $user = $this->userRepository->create($request->validated());
         return response()->json([ 
             "data" => UserResource::make($user),
             "message" => "user created successfully"
