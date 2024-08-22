@@ -136,8 +136,8 @@ class UserController extends Controller
 
         $user = $this->userRepository->create($request->validated());
         return response()->json([ 
-            "data" => UserResource::make($user),
-            "message" => "user created successfully"
+            "message" => "user created successfully",
+            "data" => UserResource::make($user)
         ], 201);
 
     }
@@ -291,7 +291,7 @@ class UserController extends Controller
  
     public function destroy(User $user)
     {
-        $this->userRepository->cteate($user);
+        $this->userRepository->delete($user);
 
         return response()->json([
             'message' => 'user deleted successfully',
