@@ -11,9 +11,17 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 
 use App\Models\User;
+use App\Repositories\UserRepositoryInterface;
+
 class UserController extends Controller
 {
 
+    protected $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
     /**
      * @OA\Get(
      *     path="/users",
@@ -64,7 +72,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = $this->userRepository->getAll();
         return response()->json([ 
             "data" => UserResource::collection($users),
             "message" => "users retrieved successfully"
@@ -125,9 +133,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        // $validatedData = $request->validated();
-        // dd($validatedData['name']);
-        $user = User::create($request->validated());
+
+        $this->userRepository->cteate($request->validated());
         return response()->json([ 
             "data" => UserResource::make($user),
             "message" => "user created successfully"
@@ -231,8 +238,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        // $validatedData = $request->validated();
-        $user->update($request->validated());
+        $this->userRepository->update($user, $request->validated());
         return response()->json([ 
             "data" => UserResource::make($user->fresh()),
             "message" => "user updated successfully"
@@ -285,12 +291,14 @@ class UserController extends Controller
  
     public function destroy(User $user)
     {
-        $user->delete();
+        $this->userRepository->cteate($user);
+
         return response()->json([
             'message' => 'user deleted successfully',
         ], 200);
 
     }
+
     public function addRoleToUser(Request $request, User $user)
     {
         $validatedData = $request->validate([
@@ -298,7 +306,8 @@ class UserController extends Controller
             'roles.*' => ['string', 'exists:roles,name' ],
         ]);
         
-        $user->syncRoles($validatedData);
+        $this->userRepository->addRoleToUser($user, $validatedData['roles']);
+
         return response()->json([
             "message" => "Roles added to user successfully",
         ], 201);
