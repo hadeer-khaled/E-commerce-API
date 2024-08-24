@@ -138,7 +138,7 @@ class CategoryController extends Controller
             DB::commit();
     
             return response()->json([
-                "data" => new CategoryResource($category),
+                "data" => CategoryResource::make($category),
                 "message" => "Category created successfully",
             ], 201);
     
@@ -187,7 +187,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return response()->json([
-            "data" =>  new CategoryResource($category),
+            "data" =>  CategoryResource::make($category),
             "message" => "Category retrieved successfully",
         ], 200);
     }
@@ -250,23 +250,25 @@ class CategoryController extends Controller
         try {
             // $validatedData = $request->validated();
             $category->update($request->validated());
-    
-            if ($request->hasFile('image')) {
-                    $category->attachment()->delete();
-                    $image = $request->file('image');
-                    $path = $image->store('images', 'public');
 
-                    Attachment::create([
-                        'filename' => $path,
-                        'attachable_id' => $category->id,
-                        'attachable_type' => Category::class,
-                    ]);
-            }
+            $this->handleAttachment($category, $request , 'image' , true);
+    
+            // if ($request->hasFile('image')) {
+            //         $category->attachment()->delete();
+            //         $image = $request->file('image');
+            //         $path = $image->store('images', 'public');
+
+            //         Attachment::create([
+            //             'filename' => $path,
+            //             'attachable_id' => $category->id,
+            //             'attachable_type' => Category::class,
+            //         ]);
+            // }
     
             DB::commit();
     
             return response()->json([
-                "data" => new CategoryResource($category->fresh()),
+                "data" => CategoryResource::make($category->fresh()),
                 "message" => "Category updated successfully",
             ], 201);
     
@@ -330,7 +332,7 @@ class CategoryController extends Controller
             DB::beginTransaction();
 
             if($category->attachment) {
-                Storage::disk('public')->delete($category->attachment->filename);
+                Storage::disk('public')->delete("images/".$category->attachment->storageName);
             }
     
             $category->attachment()->delete();

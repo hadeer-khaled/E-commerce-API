@@ -23,10 +23,15 @@ trait HandlesAttachments
             }
 
             $image = $request->file($fileInputName);
+            $originalName = $image->getClientOriginalName();
+            $storageName = $image->hashName();
             $path = $image->store('images', 'public');
+            $url = asset('storage/' . $path);
 
             Attachment::create([
-                'filename' => $path,
+                'originalName' => $originalName,
+                'storageName' => $storageName,
+                'url' => $url,
                 'attachable_id' => $model->id,
                 'attachable_type' => get_class($model),
             ]);

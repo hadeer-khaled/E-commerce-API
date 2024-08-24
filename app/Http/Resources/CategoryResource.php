@@ -21,7 +21,7 @@ class CategoryResource extends JsonResource
             "id"=>$this->id,
             "title"=>$this->title,
             // 'image' => $this->attachment ?  asset('storage/' . $this->attachment->filename) : null  ,
-            'image' => $this->attachment ?  $this->attachment : null  ,
+            'image' => $this->attachment ?  $this->attachment->url : null  ,
             'products'=>ProductResource::collection($this->products)
             
         ];
