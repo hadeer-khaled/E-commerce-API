@@ -61,20 +61,19 @@ class ProductController extends Controller
         try {
             $product = Product::create($request->validated());
 
-            if ($request->has('images') && count($request->input('images')) > 0) {
                 foreach ($request->input('images') as $image) {
                     $product->attachments()->create([
                         'original_filename' => $image["original_filename"],
                         'storage_filename' => $image['storage_filename'],
                         'url' => $image['url']
                     ]);
-                }
+                
             }
             
             DB::commit();
     
             return response()->json([
-                "data" => new ProductResource($product),
+                "data" => ProductResource::make($product),
                 "message" => "Product created successfully",
             ], 201);
     
@@ -91,7 +90,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return response()->json([
-            "data" =>  new ProductResource($product),
+            "data" =>  ProductResource::make($product),
             "message" => "Product retrieved successfully",
         ], 200);
     }
@@ -125,7 +124,7 @@ class ProductController extends Controller
     //         DB::commit();
     
     //         return response()->json([
-    //             "data" => new ProductResource($product->fresh()),
+    //             "data" => ProductResource::make($product->fresh()),
     //             "message" => "Product updated successfully",
     //         ], 201);
     
@@ -140,21 +139,15 @@ class ProductController extends Controller
     // }
     public function update(UpdateProductRequest $request, Product $product)
     {
-        try {
-            $dto = ProductUpdateDTO::fromArray($request->all());
+            $dto = ProductUpdateDTO::fromArray($request->validated());
 
             $updatedProduct = $this->productService->updateProduct($product, $dto);
 
             return response()->json([
-                "data" => new ProductResource($updatedProduct),
+                "data" => ProductResource::make($updatedProduct),
                 "message" => "Product updated successfully",
             ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                "message" => "Failed to update product",
-                "error" => $e->getMessage(),
-            ], 400);
-        }
+
     }
 
 

@@ -14,7 +14,7 @@ class ProductService
         DB::beginTransaction();
 
         try {
-            $product->update($dto->product);
+            $product->update($dto->productData);
 
             if (isset($dto->images['deleted']) && count($dto->images['deleted']) > 0) {
                 $this->deleteImages($product, $dto->images['deleted']);

@@ -38,7 +38,9 @@ Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 Route::middleware(['auth:api'])->group(function(){
-
+    
+    Route::post("logout" , [AuthController::class , 'logout'])->name('logout'); 
+    
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
     Route::post('products', [ProductController::class, 'store'])->name('products.store');
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -66,6 +68,5 @@ Route::middleware(['auth:api'])->group(function(){
     });
 
 
-    Route::post("logout" , [AuthController::class , 'logout'])->name('logout'); 
 });
 
