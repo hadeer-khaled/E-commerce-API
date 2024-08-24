@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('original_filename');
-            $table->string('storage_filename');
-            $table->string('url');
+            $table->string('original_filename')->nullable();
+            $table->string('storage_filename')->nullable();
+            $table->string('url')->nullable();
             $table->morphs('attachable');
             $table->timestamps();
         });
