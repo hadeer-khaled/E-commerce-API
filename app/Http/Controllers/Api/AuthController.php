@@ -90,28 +90,11 @@ class AuthController extends Controller
     // //---------------------------------------------------------
 
     public function register (Request $request){
-        // dd(Role::all());
         $user = User::create($request->all());
-        // $validatedAttributes = $request->validate([
-        //     "email"=>['required', 'email'],
-        //     "password"=>['required']
-        // ]);
-        // Role::firstOrCreate(['name' => 'user']);
-        // Auth::guard("api");
-        // $aa = Auth::guard("api")->attempt(["email" => $request->email,"password" => $request->password]);
-        $bb = auth("api")->attempt(["email" => $request->email,"password" => $request->password]);
-        dd($bb);
-        $user->assignRole('user','api'); // set the role to "user" by default
-        dd(2);
-        // auth()->us
-        // Auth::login($user);
-        // dd($request->email , $request->password);
-        
-        // $loginStatus = Auth::attempt($validatedAttributes);
-
-        // if($loginStatus){
-            $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
-            $responseData = $this->createLoginResponseData($user, $tokens);
+        $user->syncRoles('user');
+    
+        $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
+        $responseData = $this->createLoginResponseData($user, $tokens);
         // }
         return response()->json([
             "message" => "User registered and logged in successfully",
