@@ -11,7 +11,11 @@ class RoleController extends Controller
    
     public function index()
     {
-        //
+        $roles = Role::all()->pluck("name");
+        return response()->json([
+            "message" => "role created successfully",
+            "data"=> $roles
+        ], 200);
     }
 
     

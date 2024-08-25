@@ -29,7 +29,7 @@ use App\Http\Controllers\Api\PasswordResetController;
 Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
 Route::post("login" , [AuthController::class , 'login'])->name('login'); 
 
-Route::apiResource('roles',RoleController::class)->only(['store']);
+Route::apiResource('roles',RoleController::class)->only([ 'index', 'store']);
 Route::post('roles/{role}/add-permission',[RoleController::class , 'addPermissionToRole']);
 
 Route::apiResource('permissions', PermissionController::class)->only(['store']);
