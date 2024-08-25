@@ -78,15 +78,64 @@ class AuthController extends Controller
      * )
      */
 
-    public function register (StoreUserRequest $request){
-        $user = User::create($request->validated());
-        Role::firstOrCreate(['name' => 'user']);
-        $user->syncRoles('user'); // set the role to "user" by default
-        return response()->json([ 
-            "message" => "user registered successfully",
-            "data" => UserResource::make($user)    
+    //  public function register (StoreUserRequest $request){
+    //     $user = User::create($request->validated());
+    //     Role::firstOrCreate(['name' => 'user']);
+    //     $user->syncRoles('user'); // set the role to "user" by default
+    //     return response()->json([ 
+    //         "message" => "user registered successfully",
+    //         "data" => UserResource::make($user)    
+    //     ], 201);
+    // }   
+    // //---------------------------------------------------------
+
+    public function register (Request $request){
+        // dd(Role::all());
+        $user = User::create($request->all());
+        // $validatedAttributes = $request->validate([
+        //     "email"=>['required', 'email'],
+        //     "password"=>['required']
+        // ]);
+        // Role::firstOrCreate(['name' => 'user']);
+        // Auth::guard("api");
+        // $aa = Auth::guard("api")->attempt(["email" => $request->email,"password" => $request->password]);
+        $bb = auth("api")->attempt(["email" => $request->email,"password" => $request->password]);
+        dd($bb);
+        $user->assignRole('user','api'); // set the role to "user" by default
+        dd(2);
+        // auth()->us
+        // Auth::login($user);
+        // dd($request->email , $request->password);
+        
+        // $loginStatus = Auth::attempt($validatedAttributes);
+
+        // if($loginStatus){
+            $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
+            $responseData = $this->createLoginResponseData($user, $tokens);
+        // }
+        return response()->json([
+            "message" => "User registered and logged in successfully",
+            "data"    => $responseData,
         ], 201);
     }   
+
+    //-----------------------------------------------------
+
+    // public function register(StoreUserRequest $request)
+    // {
+    //     $user = User::create($request->validated());
+        
+    //     Role::firstOrCreate(['name' => 'user']);
+    //     $user->syncRoles('user');
+        
+    //     $loginRequest = new Request([
+    //         'email' => $request->input('email'),
+    //         'password' => $request->input('password'),
+    //     ]);
+
+    //     return $this->login($loginRequest);
+    // }
+
 
     /**
      * @OA\Post(
@@ -211,17 +260,8 @@ class AuthController extends Controller
         if($loginStatus){
             $user = Auth::user();
             $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
-            $responseData = [
-                "id" => $user->id,
-                "name" => $user->name,
-                "email" => $user->email,
-                "email_verified_at" => $user->email_verified_at,
-                "created_at" => $user->created_at,
-                "updated_at" => $user->updated_at,
-                "access_token" => $tokens["access_token"],
-                "refresh_token" => $tokens["refresh_token"],
-                "roles" => $user->getRoleNames(),
-            ];
+            $responseData = $this->createLoginResponseData($user, $tokens);
+
             return response()->json([
                 "message"=>"user logged in successfully",
                 "data"=>$responseData,
@@ -252,5 +292,20 @@ class AuthController extends Controller
             'status' => 401,
             'message' => 'User not authenticated',
         ], 401);
+    }
+
+    private function createLoginResponseData($user, $tokens)
+    {
+        return [
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
+            "email_verified_at" => $user->email_verified_at,
+            "created_at" => $user->created_at,
+            "updated_at" => $user->updated_at,
+            "access_token" => $tokens["access_token"],
+            "refresh_token" => $tokens["refresh_token"],
+            "roles" => $user->getRoleNames(),
+        ];
     }
 }
