@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\LoginRequest;
 
 use App\Http\Resources\UserResource;
 
@@ -89,9 +91,9 @@ class AuthController extends Controller
     // }   
     // //---------------------------------------------------------
 
-    public function register (Request $request){
-        $user = User::create($request->all());
-        $user->syncRoles('user');
+    public function register (StoreUserRequest $request){
+        $user = User::create($request->validated());
+        $user->syncRoles('admin');
     
         $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
         $responseData = $this->createLoginResponseData($user, $tokens);
@@ -231,24 +233,23 @@ class AuthController extends Controller
      * )
      */
 
-    public function login (Request $request){
+    public function login (LoginRequest $request){
 
-        $validatedAttributes = $request->validate([
-            "email"=>['required', 'email'],
-            "password"=>['required']
-        ]);
 
-        $loginStatus = Auth::attempt($validatedAttributes);
 
-        if($loginStatus){
-            $user = Auth::user();
+        // $loginStatus = Auth::attempt($request->validated());
+        $user = User::where('email', $request->validated()['email'])->first();
+
+
+        if ($user && Hash::check($request->validated()['password'], $user->password)) {
+            // $user = Auth::user();
             $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
             $responseData = $this->createLoginResponseData($user, $tokens);
 
             return response()->json([
                 "message"=>"user logged in successfully",
                 "data"=>$responseData,
-                
+                  
             ],200);
         }
 
