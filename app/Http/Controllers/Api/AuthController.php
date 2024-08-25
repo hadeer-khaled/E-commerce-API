@@ -93,7 +93,7 @@ class AuthController extends Controller
 
     public function register (StoreUserRequest $request){
         $user = User::create($request->validated());
-        $user->syncRoles('admin');
+        $user->syncRoles('user');
     
         $tokens = PassportHelper::generateTokens( $request->email,  $request->password);
         $responseData = $this->createLoginResponseData($user, $tokens);
