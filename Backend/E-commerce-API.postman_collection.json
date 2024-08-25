@@ -39,14 +39,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}products?page=3",
+							"raw": "{{base_url}}products?page=1",
 							"host": [
 								"{{base_url}}products"
 							],
 							"query": [
 								{
 									"key": "page",
-									"value": "3"
+									"value": "1"
 								}
 							]
 						}
@@ -66,7 +66,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "        {\r\n            \"title\": \"Toyota\",\r\n            \"description\": \"Electric car with autopilot feature.\",\r\n            \"price\": \"40000.00\",\r\n            \"category_id\": 1,\r\n            \"category\": \"Cars\",\r\n                \"images\": [\r\n        {\r\n            \"original_filename\": \"car1.jpg\",\r\n            \"storage_filename\": \"Uc7vrOz5QYEsEAg1j7CbBPTuPyZbgIWiZsxlhjF4.jpg\",\r\n            \"url\": \"http://127.0.0.1:8000/storage/images/Uc7vrOz5QYEsEAg1j7CbBPTuPyZbgIWiZsxlhjF4.jpg\"\r\n        },\r\n        {\r\n            \"original_filename\": \"default_product.png\",\r\n            \"storage_filename\": \"hD6Fr0ZLaZvnlaOXvQnc1HLgUoCWWDj99zzdrL1L.png\",\r\n            \"url\": \"http://127.0.0.1:8000/storage/images/hD6Fr0ZLaZvnlaOXvQnc1HLgUoCWWDj99zzdrL1L.png\"\r\n        }\r\n    ]\r\n            \r\n        }",
+							"raw": "{\r\n    \"title\": \"Toyota\",\r\n    \"description\": \"Electric car with autopilot feature.\",\r\n    \"price\": \"40000.00\",\r\n    \"category_id\": 1,\r\n    \"category\": \"Cars\",\r\n    \"images\": [\r\n        {\r\n            \"original_filename\": \"car1.jpg\",\r\n            \"storage_filename\": \"Uc7vrOz5QYEsEAg1j7CbBPTuPyZbgIWiZsxlhjF4.jpg\",\r\n            \"url\": \"http://127.0.0.1:8000/storage/images/Uc7vrOz5QYEsEAg1j7CbBPTuPyZbgIWiZsxlhjF4.jpg\"\r\n        },\r\n        {\r\n            \"original_filename\": \"default_product.png\",\r\n            \"storage_filename\": \"hD6Fr0ZLaZvnlaOXvQnc1HLgUoCWWDj99zzdrL1L.png\",\r\n            \"url\": \"http://127.0.0.1:8000/storage/images/hD6Fr0ZLaZvnlaOXvQnc1HLgUoCWWDj99zzdrL1L.png\"\r\n        }\r\n    ]\r\n            \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -128,7 +128,7 @@
 				{
 					"name": "update product",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Accept",
@@ -138,14 +138,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"_method\":\"PUT\",\r\n        \"product\":{\r\n            \"id\": 16,\r\n            \"title\": \"Toyota\",\r\n            \"description\": \"Electric car with autopilot feature.\",\r\n            \"price\": \"40000.00\",\r\n            \"category_id\": 1,\r\n            \"category\": \"Cars\"\r\n        },\r\n        \"images\": {\r\n            \"deleted\": [3],\r\n            \"created\": [\r\n                {\r\n                    \"original_filename\": \"bags.jpg\",\r\n                    \"storage_filename\": \"kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\",\r\n                    \"url\": \"http://127.0.0.1:8000/storage/images/kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\"\r\n                },\r\n                {\r\n                    \"original_filename\": \"phones.png\",\r\n                    \"storage_filename\": \"OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\",\r\n                    \"url\": \"http://127.0.0.1:8000/storage/images/OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\"\r\n                }\r\n            ]\r\n        }\r\n}\r\n// {\r\n//         \"_method\":\"PUT\",\r\n//         \"product\":{\r\n//             \"id\": 9,\r\n//             \"title\": \"Louis Vuitton Handbag\",\r\n//             \"description\": \"Luxury handbag with iconic design.\",\r\n//             \"price\": \"2500.00\",\r\n//             \"category_id\": 5,\r\n//             \"category\": \"Bags\"\r\n//         },\r\n//         \"images\": {\r\n//             \"created\": [\r\n//                 {\r\n//                     \"original_filename\": \"bags.jpg\",\r\n//                     \"storage_filename\": \"kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\",\r\n//                     \"url\": \"http://127.0.0.1:8000/storage/images/kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\"\r\n//                 },\r\n//                 {\r\n//                     \"original_filename\": \"phones.png\",\r\n//                     \"storage_filename\": \"OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\",\r\n//                     \"url\": \"http://127.0.0.1:8000/storage/images/OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\"\r\n//                 }\r\n//             ]\r\n//         }\r\n// }",
+							"raw": "{\r\n        \"productData\":{\r\n            \"id\": 2,\r\n            \"title\": \"Toyota test test\",\r\n            \"description\": \"Electric car with autopilot.\",\r\n            \"price\": \"40000.00\",\r\n            \"category_id\": 1,\r\n            \"category\": \"Cars\"\r\n        },\r\n        \"images\": {\r\n            \"deleted\": [3],\r\n            \"created\": [\r\n                {\r\n                    \"original_filename\": \"bags.jpg\",\r\n                    \"storage_filename\": \"kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\",\r\n                    \"url\": \"http://127.0.0.1:8000/storage/images/kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\"\r\n                },\r\n                {\r\n                    \"original_filename\": \"phones.png\",\r\n                    \"storage_filename\": \"OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\",\r\n                    \"url\": \"http://127.0.0.1:8000/storage/images/OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\"\r\n                }\r\n            ]\r\n        }\r\n}\r\n// {\r\n//         \"_method\":\"PUT\",\r\n//         \"product\":{\r\n//             \"id\": 9,\r\n//             \"title\": \"Louis Vuitton Handbag\",\r\n//             \"description\": \"Luxury handbag with iconic design.\",\r\n//             \"price\": \"2500.00\",\r\n//             \"category_id\": 5,\r\n//             \"category\": \"Bags\"\r\n//         },\r\n//         \"images\": {\r\n//             \"created\": [\r\n//                 {\r\n//                     \"original_filename\": \"bags.jpg\",\r\n//                     \"storage_filename\": \"kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\",\r\n//                     \"url\": \"http://127.0.0.1:8000/storage/images/kMcHthzTuYg9gqA5sghzvrcYhsFtoBheNCiCVoml.jpg\"\r\n//                 },\r\n//                 {\r\n//                     \"original_filename\": \"phones.png\",\r\n//                     \"storage_filename\": \"OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\",\r\n//                     \"url\": \"http://127.0.0.1:8000/storage/images/OkCnQCheWThIpQHO9VirspgkIjMnjg9FiAuOKtFw.png\"\r\n//                 }\r\n//             ]\r\n//         }\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}products/9"
+						"url": "{{base_url}}products/2"
 					},
 					"response": []
 				},
@@ -160,7 +160,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}products/22"
+						"url": "{{base_url}}products/1"
 					},
 					"response": []
 				},
@@ -215,7 +215,7 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "test trait",
+									"value": "test category 6",
 									"type": "text"
 								},
 								{
@@ -250,18 +250,18 @@
 								},
 								{
 									"key": "title",
-									"value": "Foods",
-									"type": "text"
+									"value": "",
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "postman-cloud:///1ef4cd68-d006-43a0-8aff-85db18435d2c",
-									"disabled": true
+									"src": "postman-cloud:///1ef5ef79-c464-4a40-a73d-162c35fdcba6"
 								}
 							]
 						},
-						"url": "{{base_url}}categories/16"
+						"url": "{{base_url}}categories/1"
 					},
 					"response": []
 				},
@@ -291,7 +291,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}categories/5"
+						"url": "{{base_url}}categories/11"
 					},
 					"response": []
 				},
@@ -378,7 +378,7 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "users",
+					"name": "list users",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -399,34 +399,7 @@
 					"response": []
 				},
 				{
-					"name": "user",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{access_token}}"
-							}
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjM5MTE0NmY0ZDUxYzlkZmZmNzBmMWMzMWZkNjU4MTYyMTYwMDAyOWYxMWRlZmEwMTgwYzFlNzk2YmE0NmRkZGM3YTkxYjVkMjVlNDJhYTYiLCJpYXQiOjE3MjIzMjM1MDMuNTg4NDgsIm5iZiI6MTcyMjMyMzUwMy41ODg0ODYsImV4cCI6MTc1Mzg1OTUwMy41MTgzMjEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.BhAWmNXP4uVFOX4ngCO8p0fQ4Ff6yscP3nMaN7CFsQVUpEbuf7u5YzUXyT1qoABB_gohBMVrwg5R-SiOIAVCO1s65WyIb0JaQFgrqcMl-lLGcD16ifmqRUA504r4kDZHSFYV2USGvTgH0pdi0XM160sK07G-FhRaAeyQcXN8xgJ09zj1m9ifSSNHEVZDBGJKk8cpbhto7FwUutuMJOOexHOsKcvClxhdI1ssW7ZYS_u-Y8k4DX38uQh190GIDek_v9zw89uqBpL4pqaKFm0eGwP5UD--cZ9dlaYayJ46tFInVNzWmKRyCeY1PbVwOMIqpDND-YO2bdwl5A8TR4QMQOe0okTNCjoQAtyqT0ljVoDLBWfvJIgPCYb-zb74yvBrujjNb1WIjv653B1h9Gh3vG91Eetjm_j7cn_flgLmFykMUF13Fc-yoN2sDYyNbM3Wx5QBAv6a0mDzUhtfq6b82vtqaL5Ea6Erbp1jA11sCVAocnOnB69eScB1Xwq3zwSFqQbPANshnRMAp2sDgRrHbDl_uFVr-MWcaRJr0Gf_80WEkVlKc1zVSjQhkM_MPDkw16IzE4JZ8cce4XprVg_ktKcTCGGWdc3vMJGF0uf6JtJv4qkVJXVzk9hTFzmN4GAfwSHY5NLAe5NYXBhuPORHBvRQNl8PYQBF4vjw8D2c9N4",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"url": "{{base_url}}users/1"
-					},
-					"response": []
-				},
-				{
-					"name": "user",
+					"name": "create user",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -443,29 +416,13 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "omar@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "omar",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"admin\",\r\n    \"email\": \"admin3@gmail.com\",\r\n    \"password\": 123,\r\n    \"password_confirmation\":123,\r\n    \"roles\":[\"admin\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{base_url}}users",
@@ -489,9 +446,9 @@
 					"response": []
 				},
 				{
-					"name": "user",
+					"name": "update user",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Accept",
@@ -500,45 +457,21 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "_method",
-									"value": "PUT",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "@gmail.com",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "hadeer",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123",
-									"type": "text",
-									"disabled": true
+							"mode": "raw",
+							"raw": " {\r\n    \"id\":4,\r\n    \"name\": \"omar\",\r\n    \"email\": \"omar@gmail.com\",\r\n    \"roles\":[\"user\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{base_url}}users/2",
+							"raw": "{{base_url}}users/4",
 							"host": [
 								"{{base_url}}users"
 							],
 							"path": [
-								"2"
+								"4"
 							],
 							"query": [
 								{
@@ -557,7 +490,46 @@
 					"response": []
 				},
 				{
-					"name": "user",
+					"name": "show user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjM5MTE0NmY0ZDUxYzlkZmZmNzBmMWMzMWZkNjU4MTYyMTYwMDAyOWYxMWRlZmEwMTgwYzFlNzk2YmE0NmRkZGM3YTkxYjVkMjVlNDJhYTYiLCJpYXQiOjE3MjIzMjM1MDMuNTg4NDgsIm5iZiI6MTcyMjMyMzUwMy41ODg0ODYsImV4cCI6MTc1Mzg1OTUwMy41MTgzMjEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.BhAWmNXP4uVFOX4ngCO8p0fQ4Ff6yscP3nMaN7CFsQVUpEbuf7u5YzUXyT1qoABB_gohBMVrwg5R-SiOIAVCO1s65WyIb0JaQFgrqcMl-lLGcD16ifmqRUA504r4kDZHSFYV2USGvTgH0pdi0XM160sK07G-FhRaAeyQcXN8xgJ09zj1m9ifSSNHEVZDBGJKk8cpbhto7FwUutuMJOOexHOsKcvClxhdI1ssW7ZYS_u-Y8k4DX38uQh190GIDek_v9zw89uqBpL4pqaKFm0eGwP5UD--cZ9dlaYayJ46tFInVNzWmKRyCeY1PbVwOMIqpDND-YO2bdwl5A8TR4QMQOe0okTNCjoQAtyqT0ljVoDLBWfvJIgPCYb-zb74yvBrujjNb1WIjv653B1h9Gh3vG91Eetjm_j7cn_flgLmFykMUF13Fc-yoN2sDYyNbM3Wx5QBAv6a0mDzUhtfq6b82vtqaL5Ea6Erbp1jA11sCVAocnOnB69eScB1Xwq3zwSFqQbPANshnRMAp2sDgRrHbDl_uFVr-MWcaRJr0Gf_80WEkVlKc1zVSjQhkM_MPDkw16IzE4JZ8cce4XprVg_ktKcTCGGWdc3vMJGF0uf6JtJv4qkVJXVzk9hTFzmN4GAfwSHY5NLAe5NYXBhuPORHBvRQNl8PYQBF4vjw8D2c9N4",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}users/2"
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -567,7 +539,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}users/8"
+						"url": "{{base_url}}users/7"
 					},
 					"response": []
 				},
@@ -599,12 +571,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}users/9/add-role",
+							"raw": "{{base_url}}users/1/add-role",
 							"host": [
 								"{{base_url}}users"
 							],
 							"path": [
-								"9",
+								"1",
 								"add-role"
 							],
 							"query": [
@@ -821,29 +793,13 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Hadeer",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "hadeer.khaled.elmalah@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"hadeer\",\r\n    \"email\": \"ha1dseerwsswwszs2d@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"password_confirmation\":\"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": "{{base_url}}register"
 					},
@@ -865,13 +821,19 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "hadeer.khaled.elmalah@gmail.com",
+									"value": "hadeer@gmail.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "123",
 									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "rahma@gmail.com",
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
