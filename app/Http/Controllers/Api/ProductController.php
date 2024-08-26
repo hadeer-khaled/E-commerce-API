@@ -22,6 +22,8 @@ use App\Models\Attachment;
 use App\Services\ProductService;
 use App\DTO\ProductUpdateDTO;
 
+use Illuminate\Support\Facades\Log;
+
 
 class ProductController extends Controller
 {
@@ -203,6 +205,28 @@ class ProductController extends Controller
         
         return response()->json(['message' => 'Images stored successfully', 'images' => $storedImages], 200);
     }
+
+    // public function deleteImages(Request $request)
+    // {
+    //     if ($request->input('images')) {
+    //         foreach($request['images'] as $imagePath) {
+    //             Storage::disk('public')->delete($imagePath);
+    //         }
+    //     }
+    //     Log::info('Images Input:', ['images' => $request->input('images')]);
+    
+    //     return response()->json(['message' => 'Images deleted successfully.'], 200);
+    // }
+    public function deleteImages(Request $request)
+    {
+    
+        foreach ( $request->input('images') as $imagePath) {
+            Storage::disk('public')->delete("images/".$imagePath);
+        }
+
+        return response()->json(['message' => 'Images deleted successfully.'], 200);
+    }
+
     
     
     

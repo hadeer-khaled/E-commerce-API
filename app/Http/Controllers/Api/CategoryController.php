@@ -55,7 +55,7 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $perPage    =  $request->query('perPage', 4);
+        $perPage    =  $request->query('perPage', null);
         $search     =  $request->query('search', null);
         $categories =  Category::with("attachment")
                         ->when($search , function($query , $search){
