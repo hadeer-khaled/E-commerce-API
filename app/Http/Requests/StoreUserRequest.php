@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
             'name'  => ['required', 'string' , 'max:50'],
             'email' => ['required', 'email' , 'unique:users'],
             'password'=> ['required' , 'min:3' , 'confirmed'],
-            'roles'=>['array'],
+            'roles'=>['required','array'],
             'roles.*'=>['string','exists:roles,name'],
 
         ];

@@ -176,11 +176,15 @@ class UserController extends Controller
      * )
      */
 
-    public function show(User $user)
+    public function show($userId)
     {
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
         return response()->json([ 
-            "data" => UserResource::make($user),
-            "message" => "user retrieved successfully"
+            "message" => "user retrieved successfully",
+            "data" => UserResource::make($user)
             ], 200);
     }
 
@@ -236,12 +240,17 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request,  $userId)
     {
-        $this->userRepository->update($user, $request->validated());
+        $user = User::find($userId);
+        if (!$user ) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user =  $this->userRepository->update($user , $request->validated());
         return response()->json([ 
-            "data" => UserResource::make($user->fresh()),
-            "message" => "user updated successfully"
+            "message" => "user updated successfully",
+            "data" => UserResource::make($user)
         ], 200);
     }
 
@@ -289,15 +298,17 @@ class UserController extends Controller
      */
 
  
-    public function destroy(User $user)
-    {
-        $this->userRepository->delete($user);
-
-        return response()->json([
-            'message' => 'user deleted successfully',
-        ], 200);
-
-    }
+     public function destroy($userId)
+     {
+         $user = User::find($userId);
+     
+         if (!$user) {
+             return response()->json(['message' => 'User not found'], 404);
+         }
+     
+         return $this->userRepository->delete($user);
+     }
+     
 
     public function addRoleToUser(Request $request, User $user)
     {

@@ -22,9 +22,11 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('id'); 
+        
         return [
             'name'  => ['string' , 'max:50'],
-            'email' => ['email' , Rule::unique('users')->ignore($this->user->id)
+            'email' => ['email' , Rule::unique('users')->ignore( $userId )
         ],
             'roles'=>['array'],
             'roles.*'=>['string','exists:roles,name'],
