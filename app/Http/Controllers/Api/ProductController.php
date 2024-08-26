@@ -159,7 +159,7 @@ class ProductController extends Controller
             DB::beginTransaction();
     
             foreach ($product->attachments as $image) {
-                    Storage::disk('public')->delete($image->filename);
+                    Storage::disk('public')->delete("images/".$image->storage_filename);
             }
     
             $product->attachments()->delete();
