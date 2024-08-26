@@ -29,7 +29,7 @@ class UserRepository implements UserRepositoryInterface
         $user->update($data);
         $user->syncRoles($data['roles']);
     
-        return $user->fresh();
+        return $user;
     }
     
     public function delete(User $user)

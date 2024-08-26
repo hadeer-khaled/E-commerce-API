@@ -176,12 +176,8 @@ class UserController extends Controller
      * )
      */
 
-    public function show($userId)
+    public function show(User $user)
     {
-        $user = User::find($userId);
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
         return response()->json([ 
             "message" => "user retrieved successfully",
             "data" => UserResource::make($user)
@@ -240,17 +236,12 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function update(UpdateUserRequest $request,  $userId)
+    public function update(UpdateUserRequest $request,  User $user)
     {
-        $user = User::find($userId);
-        if (!$user ) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        $user =  $this->userRepository->update($user , $request->validated());
+        $this->userRepository->update($user , $request->validated());
         return response()->json([ 
             "message" => "user updated successfully",
-            "data" => UserResource::make($user)
+            "data" => UserResource::make($user->fresh())
         ], 200);
     }
 
@@ -298,14 +289,9 @@ class UserController extends Controller
      */
 
  
-     public function destroy($userId)
+     public function destroy(User $user)
      {
-         $user = User::find($userId);
-     
-         if (!$user) {
-             return response()->json(['message' => 'User not found'], 404);
-         }
-     
+    
          return $this->userRepository->delete($user);
      }
      
