@@ -95,6 +95,10 @@ return [
 
         'team_foreign_key' => 'team_id',
     ],
+    'guards' => [
+        'web' => 'web',
+        'api' => 'api',
+    ],
 
     /*
      * When set to true, the method for checking permissions will be registered on the gate.

@@ -56,6 +56,12 @@
 				{
 					"name": "create product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -80,6 +86,12 @@
 				{
 					"name": "store images",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -126,8 +138,44 @@
 					"response": []
 				},
 				{
+					"name": "delete images",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"images\": [\"0ry1gh2f45rfD3YzGjdHJD8zkLnDuA2lztBHJDrE.jpg\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}products/delete-images"
+					},
+					"response": []
+				},
+				{
 					"name": "update product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -152,6 +200,12 @@
 				{
 					"name": "show product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -160,13 +214,19 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}products/1"
+						"url": "{{base_url}}products/144"
 					},
 					"response": []
 				},
 				{
 					"name": "delete product",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -417,7 +477,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"admin\",\r\n    \"email\": \"admin3@gmail.com\",\r\n    \"password\": 123,\r\n    \"password_confirmation\":123,\r\n    \"roles\":[\"admin\"]\r\n}",
+							"raw": "{\r\n    \"name\": \"admin\"\r\n    // \"email\": \"admin3@gmail.com\",\r\n    // \"password\": 123,\r\n    // \"password_confirmation\":123,\r\n    // \"roles\":[\"admin\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -458,7 +518,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"id\":4,\r\n    \"name\": \"omar\",\r\n    \"email\": \"omar@gmail.com\",\r\n    \"roles\":[\"user\"]\r\n}",
+							"raw": "{\r\n            \"id\": 3,\r\n            \"name\": \"omarkhaled\",\r\n            \"email\": \"omalr@gmail.com\",\r\n            \"roles\": [\r\n                \"user\"\r\n            ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -466,12 +526,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}users/4",
+							"raw": "{{base_url}}users/550",
 							"host": [
 								"{{base_url}}users"
 							],
 							"path": [
-								"4"
+								"550"
 							],
 							"query": [
 								{
@@ -524,7 +584,7 @@
 								}
 							}
 						},
-						"url": "{{base_url}}users/2"
+						"url": "{{base_url}}users/777"
 					},
 					"response": []
 				},
@@ -539,7 +599,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}users/7"
+						"url": "{{base_url}}users/4"
 					},
 					"response": []
 				},
@@ -696,6 +756,15 @@
 						"url": "{{base_url}}roles/1/add-permission"
 					},
 					"response": []
+				},
+				{
+					"name": "list roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}roles"
+					},
+					"response": []
 				}
 			]
 		},
@@ -794,7 +863,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"hadeer\",\r\n    \"email\": \"ha1dseerwsswwszs2d@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"password_confirmation\":\"123\"\r\n}",
+							"raw": "{\r\n    \"name\": \"hadeer\",\r\n    \"email\": \"hadeer@gmail.com\",\r\n    \"password\": \"123\",\r\n    \"password_confirmation\":\"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
