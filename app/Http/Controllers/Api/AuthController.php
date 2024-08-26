@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 
 use App\Http\Resources\UserResource;
@@ -91,7 +91,7 @@ class AuthController extends Controller
     // }   
     // //---------------------------------------------------------
 
-    public function register (StoreUserRequest $request){
+    public function register (RegisterRequest $request){
         $user = User::create($request->validated());
         $user->syncRoles('user');
     
