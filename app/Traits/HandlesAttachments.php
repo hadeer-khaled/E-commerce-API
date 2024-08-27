@@ -29,8 +29,8 @@ trait HandlesAttachments
             $url = asset('storage/' . $path);
 
             Attachment::create([
-                'originalName' => $originalName,
-                'storageName' => $storageName,
+                'original_filename' => $originalName,
+                'storage_filename' => $storageName,
                 'url' => $url,
                 'attachable_id' => $model->id,
                 'attachable_type' => get_class($model),
