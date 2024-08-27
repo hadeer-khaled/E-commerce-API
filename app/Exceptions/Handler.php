@@ -40,31 +40,59 @@ class Handler extends ExceptionHandler
                     
     //         });
     //     }
-    public function register()
-    {
-        $this->renderable(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, $request) {
-            return response()->json([
-                'message' => 'You do not have the required authorization.',
-                'status'  => 403,
-            ], 403);
-        });
-    }
+    // public function register()
+    // {
+    //     $this->renderable(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, $request) {
+    //         return response()->json([
+    //             'message' => 'You do not have the required authorization.',
+    //             'status'  => 403,
+    //         ], 403);
+    //     });
+    // }
 
-    public function render($request, Throwable $exception)
-    {
-        if( $request->is('api/*'))
-        {
-            if ($exception instanceof ModelNotFoundException) {
-                $model = strtolower(class_basename($exception->getModel()));
-                return response()->json(['message' => $model.' not found' , "status" => 404], 404);
+    // public function render($request, Throwable $exception)
+    // {
+    //     if( $request->is('api/*'))
+    //     {
+    //         if ($exception instanceof ModelNotFoundException) {
+    //             $model = strtolower(class_basename($exception->getModel()));
+    //             return response()->json(['message' => $model.' not found' , "status" => 404], 404);
 
-            }
-            if ($exception instanceof NotFoundHttpException) {
-                return response()->json([
-                            'error' => 'Resource not found'
-                        ], 404);
+    //         }
+    //         if ($exception instanceof NotFoundHttpException) {
+    //             return response()->json([
+    //                         'error' => 'Resource not found'
+    //                     ], 404);
                             
-            }
+    //         }
+    //     }
+    // }
+    public function render($request, Throwable $exception)
+{
+    if ($request->is('api/*')) {
+        if ($exception instanceof ModelNotFoundException) {
+            $model = strtolower(class_basename($exception->getModel()));
+            return response()->json(['message' => $model.' not found', 'status' => 404], 404);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'error' => 'Resource not found'
+            ], 404);
         }
     }
+
+    return parent::render($request, $exception);
+}
+
+public function register()
+{
+    $this->renderable(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, $request) {
+        return response()->json([
+            'message' => 'You do not have the required authorization.',
+            'status'  => 403,
+        ], 403);
+    });
+}
+
 }
