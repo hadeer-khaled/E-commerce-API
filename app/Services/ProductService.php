@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\DTO\ProductUpdateDTO;
 use App\DTO\ImageDTO;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -40,6 +41,8 @@ class ProductService
             if ($attachment) {
                 $attachment->delete();
             }
+            Storage::disk('public')->delete("images/".$attachment->storage_filename);
+
         }
     }
 
