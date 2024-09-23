@@ -38,9 +38,12 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Forgot Password?')
-                    ->action('Click to reset', $this->url)
-                    ->line('Thank you for using our application!');
+                    // ->line('Forgot Password?')
+                    // ->action('Click to reset', $this->url)
+                    // ->line('Thank you for using our application!');
+
+                    ->markdown('emails.reset_password', ['url' =>  $this->url]);
+
     }
 
     /**
