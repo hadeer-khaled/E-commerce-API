@@ -20,6 +20,7 @@ use App\Models\Attachment;
 
 use App\Imports\CategoriesImport ;
 use App\Exports\CategoryExport ;
+use App\Exports\CategoryExportWithChunks ;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
@@ -463,7 +464,18 @@ class CategoryController extends Controller
     public function export(Request $request){
         $filters = $request->only(['title']);
         try {
-            return Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+            $startTime = microtime(true);
+            // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+            // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+            Excel::queue(new CategoryExportWithChunks($filters), 'category.xlsx');
+            $endTime = microtime(true);
+
+            $executionTime = $endTime - $startTime;
+            // \Log::info('Category export (without chunks) completed in ' . $executionTime . ' seconds.');
+            // \Log::info('Category export (with chunks) completed in ' . $executionTime . ' seconds.');
+            
+            // return $file ;
+            return response()->json(['message' => 'Export queued successfully.']);
         } 
         catch (Exception $e) {
             return response()->json([
@@ -471,8 +483,8 @@ class CategoryController extends Controller
                 'error' => $e->getMessage(),
             ], 400);
         }
-        
     }
+    
 
 
 }
