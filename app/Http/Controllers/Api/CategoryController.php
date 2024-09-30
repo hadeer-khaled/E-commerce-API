@@ -19,6 +19,8 @@ use App\Models\Category;
 use App\Models\Attachment;
 
 use App\Imports\CategoriesImport ;
+use App\Exports\CategoryExport ;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
 
@@ -457,4 +459,20 @@ class CategoryController extends Controller
             "message" => "Category image uploaded successfully",
         ], 201);
     }
+
+    public function export(Request $request){
+        $filters = $request->only(['title']);
+        try {
+            return Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+        } 
+        catch (Exception $e) {
+            return response()->json([
+                'message' => 'Export Categories failed',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
+        
+    }
+
+
 }

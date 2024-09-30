@@ -37,6 +37,8 @@ Route::apiResource('permissions', PermissionController::class)->only(['store']);
 Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
 
+Route::get('categories/export', [CategoryController::class, 'export'])->name('categories.export');
+
 Route::middleware(['auth:api'])->group(function(){
     
     Route::post("logout" , [AuthController::class , 'logout'])->name('logout'); 
