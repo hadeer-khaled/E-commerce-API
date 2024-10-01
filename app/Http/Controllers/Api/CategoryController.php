@@ -26,6 +26,7 @@ use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
 use App\Notifications\NotifyUserOfCompletedExport;
+use App\Jobs\SendExportNotification;
 
 use App\Traits\HandlesAttachments;
 
@@ -466,20 +467,22 @@ class CategoryController extends Controller
     public function export(Request $request){
         $filters = $request->only(['title']);
         $user = User::find($request['user_id']);
-        $download_filePath = 'category_' . time() . '.xlsx'; ;
-        $filePath = 'public/'.$download_filePath ;
+        $fileName = 'category_' . time() . '.xlsx'; ;
+        $filePath = 'public/' . $fileName;
         try {
-            $startTime = microtime(true);
+            \Log::info('Queueing export for user ID: ' . $user->id);
+
             // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
             // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
-            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([$user->notify(new NotifyUserOfCompletedExport($user,$download_filePath))]);
+            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
+                new SendExportNotification($user, $fileName) 
+            ]);
 
-            $endTime = microtime(true);
-
-            $executionTime = $endTime - $startTime;
             return response()->json(['message' => 'Export queued successfully.']);
         } 
         catch (Exception $e) {
+            \Log::error('Export failed for user ID: ' . $user->id . '. Error: ' . $e->getMessage());
+
             return response()->json([
                 'message' => 'Export Categories failed',
                 'error' => $e->getMessage(),

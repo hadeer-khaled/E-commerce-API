@@ -6,21 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
-class NotifyUserOfCompletedExport extends Notification
+class NotifyUserOfCompletedExport extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $filePath ;
-    protected $user ;
+    protected $fileName ;
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user , $filePath )
+    public function __construct( $fileName )
     {
-        $this->user = $user ;
-        $this->filePath = $filePath ;
+        $this->fileName = $fileName ;
     }
 
     /**
@@ -30,6 +28,8 @@ class NotifyUserOfCompletedExport extends Notification
      */
     public function via(object $notifiable): array
     {
+        \Log::info('via method called for NotifyUserOfCompletedExport');
+
         return ['mail'];
     }
 
@@ -38,15 +38,21 @@ class NotifyUserOfCompletedExport extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        var_dump($this->filePath);
-        var_dump($this->user->id);
+        var_dump($this->fileName);
+        
+        $fileContent = Storage::disk('public')->get($this->fileName); 
+
+    
+
         return (new MailMessage)
                 ->subject('Your Export is Ready')
                 ->line('The export you requested has been completed.')
-                // ->action('Download File', url('storage/' . $this->filePath)) 
+                ->attachData($fileContent, $this->fileName, [
+                    'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                ])
+                // ->action('Download File', url('storage/' . $this->fileName)) 
                 ->line('Thank you for using our application!');
     }
-
     /**
      * Get the array representation of the notification.
      *
