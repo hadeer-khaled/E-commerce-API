@@ -17,6 +17,7 @@ use App\Http\Resources\CategoryResource;
 
 use App\Models\Category;
 use App\Models\Attachment;
+use App\Models\User;
 
 use App\Imports\CategoriesImport ;
 use App\Exports\CategoryExport ;
@@ -24,6 +25,7 @@ use App\Exports\CategoryExportWithChunks ;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\NotifyUserOfCompletedExport;
 
 use App\Traits\HandlesAttachments;
 
@@ -463,18 +465,18 @@ class CategoryController extends Controller
 
     public function export(Request $request){
         $filters = $request->only(['title']);
+        $user = User::find($request['user_id']);
+        $download_filePath = 'category_' . time() . '.xlsx'; ;
+        $filePath = 'public/'.$download_filePath ;
         try {
             $startTime = microtime(true);
             // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
             // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
-            Excel::queue(new CategoryExportWithChunks($filters), 'category.xlsx');
+            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([$user->notify(new NotifyUserOfCompletedExport($user,$download_filePath))]);
+
             $endTime = microtime(true);
 
             $executionTime = $endTime - $startTime;
-            // \Log::info('Category export (without chunks) completed in ' . $executionTime . ' seconds.');
-            // \Log::info('Category export (with chunks) completed in ' . $executionTime . ' seconds.');
-            
-            // return $file ;
             return response()->json(['message' => 'Export queued successfully.']);
         } 
         catch (Exception $e) {
