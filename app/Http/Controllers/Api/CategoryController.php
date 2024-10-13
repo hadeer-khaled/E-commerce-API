@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
+use App\Jobs\InsertExportLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -473,11 +474,16 @@ class CategoryController extends Controller
             \Log::info('Queueing export for user ID: ' . $user->id);
 
             // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
-            // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
-            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
-                new SendExportNotification($user, $fileName)
-            ]);
 
+            // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+
+//            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
+//                new SendExportNotification($user, $fileName)
+//            ]);
+
+            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
+                new InsertExportLog($request['user_id'], $fileName)
+            ]);
             return response()->json(['message' => 'Export queued successfully.']);
         }
         catch (Exception $e) {

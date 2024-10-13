@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('export_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->string("file_name");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->string("file_name")->nullable();
             $table->enum("status", ["pending", "sent"])->default("pending");
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

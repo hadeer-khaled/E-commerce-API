@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
             \Log::info("after 5 seconds");
         })->everyFiveSeconds();;
 
-        
-        $schedule->job(new SendExportNotification() )->everyMinute();
+
+//        $schedule->job(new SendExportNotification() )->everyMinute();
 
 
     }
