@@ -45,7 +45,7 @@ class CategoryController extends Controller
      *         response=200,
      *         description="Categories retrieved successfully",
      *         @OA\JsonContent(ref="#/components/schemas/Category")
-     * 
+     *
      *     ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
@@ -75,14 +75,14 @@ class CategoryController extends Controller
             "links"=> $categories->toArray()['links'],
         ], 200);
     }
-    
+
     /**
      * @OA\Post(
      *     path="/categories",
      *     summary="Create a new category",
      *     tags={"Categories"},
      *     @OA\RequestBody(
-     *         ref="#/components/requestBodies/CreateCategory"  
+     *         ref="#/components/requestBodies/CreateCategory"
      *     ),
      *     security={{"bearer":{}}},
      *     @OA\Response(
@@ -91,7 +91,7 @@ class CategoryController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 ref="#/components/schemas/Category"  
+     *                 ref="#/components/schemas/Category"
      *             ),
      *             @OA\Property(
      *                 property="message",
@@ -133,24 +133,24 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         DB::beginTransaction();
-    
+
         try {
             // $validatedData = $request->validated();
             $category = Category::create($request->validated());
-    
+
             $this->handleAttachment($category, $request , 'image' , false);
 
-    
+
             DB::commit();
-    
+
             return response()->json([
                 "data" => CategoryResource::make($category),
                 "message" => "Category created successfully",
             ], 201);
-    
+
         } catch (Exception $e) {
             DB::rollBack();
-    
+
             return response()->json([
                 "message" => "Failed to create category",
                 "error" => $e->getMessage(),
@@ -252,13 +252,13 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         DB::beginTransaction();
-    
+
         try {
             // $validatedData = $request->validated();
             $category->update($request->validated());
 
             $this->handleAttachment($category, $request , 'image' , true);
-    
+
             // if ($request->hasFile('image')) {
             //         $category->attachment()->delete();
             //         $image = $request->file('image');
@@ -270,17 +270,17 @@ class CategoryController extends Controller
             //             'attachable_type' => Category::class,
             //         ]);
             // }
-    
+
             DB::commit();
-    
+
             return response()->json([
                 "data" => CategoryResource::make($category->fresh()),
                 "message" => "Category updated successfully",
             ], 201);
-    
+
         } catch (\Exception $e) {
             DB::rollBack();
-    
+
             return response()->json([
                 "message" => "Failed to update category",
                 "error" => $e->getMessage(),
@@ -331,7 +331,7 @@ class CategoryController extends Controller
      * )
      */
 
- 
+
     public function destroy(Category $category)
     {
         try {
@@ -340,19 +340,19 @@ class CategoryController extends Controller
             if($category->attachment) {
                 Storage::disk('public')->delete("images/".$category->attachment->storageName);
             }
-    
+
             $category->attachment()->delete();
             $category->delete();
-    
+
             DB::commit();
-    
+
             return response()->json([
                 'message' => 'Category deleted successfully',
             ], 200);
 
         } catch (Exception $e) {
             DB::rollBack();
-    
+
             return response()->json([
                 'message' => 'Failed to delete Category',
                 'error' => $e->getMessage(),
@@ -437,12 +437,12 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Import Categories successful',
             ], 200);
-        } 
+        }
         catch (ValidationException $e) {
             return response()->json([
                 'message' => 'Import Categories failed',
                 'error' => $e->errors(),
-            ], 422); 
+            ], 422);
         }
         catch (Exception $e) {
             return response()->json([
@@ -475,11 +475,11 @@ class CategoryController extends Controller
             // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
             // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
             Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
-                new SendExportNotification($user, $fileName) 
+                new SendExportNotification($user, $fileName)
             ]);
 
             return response()->json(['message' => 'Export queued successfully.']);
-        } 
+        }
         catch (Exception $e) {
             \Log::error('Export failed for user ID: ' . $user->id . '. Error: ' . $e->getMessage());
 
@@ -489,7 +489,7 @@ class CategoryController extends Controller
             ], 400);
         }
     }
-    
+
 
 
 }
