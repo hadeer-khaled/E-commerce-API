@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Bus; 
+use App\Jobs\ExportCategoryChunkJob;
+use App\Jobs\SendExportNotification;
 
+use App\Notifications\NotifyUserOfCompletedExport;
 use App\Jobs\InsertExportLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -26,8 +30,7 @@ use App\Exports\CategoryExportWithChunks ;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
-use App\Notifications\NotifyUserOfCompletedExport;
-use App\Jobs\SendExportNotification;
+
 
 use App\Traits\HandlesAttachments;
 
@@ -465,37 +468,88 @@ class CategoryController extends Controller
         ], 201);
     }
 
-    public function export(Request $request){
+    // public function export(Request $request){
+    //     $filters = $request->only(['title']);
+    //     $user = User::find($request['user_id']);
+    //     $fileName = 'category_' . time() . '.xlsx'; ;
+    //     $filePath = 'public/' . $fileName;
+    //     try {
+    //         \Log::info('Queueing export for user ID: ' . $user->id);
+
+    //         // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+
+    //         // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
+
+    //        Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
+    //            new SendExportNotification($user, $fileName)
+    //        ]);
+
+    //         // Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
+    //         //     new InsertExportLog($request['user_id'], $fileName)
+    //         // ]);
+    //         return response()->json(['message' => 'Export queued successfully.']);
+    //     }
+    //     catch (Exception $e) {
+    //         \Log::error('Export failed for user ID: ' . $user->id . '. Error: ' . $e->getMessage());
+
+    //         return response()->json([
+    //             'message' => 'Export Categories failed',
+    //             'error' => $e->getMessage(),
+    //         ], 400);
+    //     }
+    // }
+
+
+    
+    public function export(Request $request)
+    {
         $filters = $request->only(['title']);
         $user = User::find($request['user_id']);
-        $fileName = 'category_' . time() . '.xlsx'; ;
-        $filePath = 'public/' . $fileName;
+    
         try {
             \Log::info('Queueing export for user ID: ' . $user->id);
+    
+            // Get total number of rows based on filters
+            $totalRows = Category::when(isset($filters['title']), function ($query) use ($filters) {
+                $query->where('title', 'like', '%' . $filters['title'] . '%');
+            })->count();
+    
+            $batchSize = 7000;
+            $totalBatches = (int) ceil($totalRows / $batchSize);
+    
+            $fileNames = [];
+            $exportJobs = [];
+    
+            // Create jobs for each batch of data
+            for ($i = 0; $i < $totalBatches; $i++) {
+                $fileName = "category_" . time() . "_part_{$i}.xlsx";
+                $filePath = "public/{$fileName}";
+    
+                $fileNames[] = $fileName;
+                $exportJobs[] = new ExportCategoryChunkJob($filters, $i * $batchSize, $batchSize, $fileName);
+            }
+    
+            // Add the notification job at the end of the chain
+            $exportJobs[] = new SendExportNotification($user, $fileNames);
+    
+            // Dispatch the chain of jobs
+            Bus::chain($exportJobs)->dispatch();
 
-            // $file =  Excel::download(new CategoryExport($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
 
-            // $file = Excel::download(new CategoryExportWithChunks($filters), 'category.xlsx' , \Maatwebsite\Excel\Excel::XLSX);
-
-//            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
-//                new SendExportNotification($user, $fileName)
-//            ]);
-
-            Excel::queue(new CategoryExportWithChunks($filters), $filePath)->chain([
-                new InsertExportLog($request['user_id'], $fileName)
-            ]);
+    
             return response()->json(['message' => 'Export queued successfully.']);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             \Log::error('Export failed for user ID: ' . $user->id . '. Error: ' . $e->getMessage());
-
+    
             return response()->json([
                 'message' => 'Export Categories failed',
                 'error' => $e->getMessage(),
             ], 400);
         }
     }
+    
 
+    
 
 
 }

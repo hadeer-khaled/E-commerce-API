@@ -26,8 +26,8 @@ use App\Http\Controllers\Api\PasswordResetController;
 //     return $request->user();
 // });
 
-Route::post("register" , [AuthController::class , 'register'] )->name('register'); 
-Route::post("login" , [AuthController::class , 'login'])->name('login'); 
+Route::post("register" , [AuthController::class , 'register'] )->name('register');
+Route::post("login" , [AuthController::class , 'login'])->name('login');
 
 Route::apiResource('roles',RoleController::class)->only([ 'index', 'store']);
 Route::post('roles/{role}/add-permission',[RoleController::class , 'addPermissionToRole']);
@@ -39,10 +39,10 @@ Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']
 
 Route::get('categories/export', [CategoryController::class, 'export'])->name('categories.export');
 
-Route::middleware(['auth:api'])->group(function(){
-    
-    Route::post("logout" , [AuthController::class , 'logout'])->name('logout'); 
-    
+//Route::middleware(['auth:api'])->group(function(){
+
+    Route::post("logout" , [AuthController::class , 'logout'])->name('logout');
+
     Route::get('products', [ProductController::class, 'index'])->name('products.index');
     Route::post('products', [ProductController::class, 'store'])->name('products.store');
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
@@ -66,10 +66,10 @@ Route::middleware(['auth:api'])->group(function(){
         Route::post('users', [UserController::class, 'store'])->name('users.store');
         Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
         Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');   
+        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::post('users/{user}/add-role',[UserController::class , 'addRoleToUser']);
     });
 
 
-});
+//});
 

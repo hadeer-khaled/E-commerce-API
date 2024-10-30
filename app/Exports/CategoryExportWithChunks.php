@@ -16,23 +16,45 @@ class CategoryExportWithChunks implements FromQuery, WithHeadings, WithCustomChu
 {
     use Exportable;
 
-    protected $filters;
+    // protected $filters;
 
-    public function __construct(array $filters = [])
+    // public function __construct(array $filters = [])
+    // {
+    //     $this->filters = $filters;
+    // }
+
+    // public function query()
+    // {
+    //     $query = Category::query();
+    //     if (isset($this->filters['title'])) {
+    //         $query->where('title', 'like', '%' . $this->filters['title'] . '%');
+    //     }
+
+    //     return $query->select('id', 'title');
+    // }
+    protected $filters;
+    protected $offset;
+    protected $batchSize;
+
+    public function __construct(array $filters, int $offset = 0, int $batchSize = 7000)
     {
         $this->filters = $filters;
+        $this->offset = $offset;
+        $this->batchSize = $batchSize;
     }
 
     public function query()
     {
         $query = Category::query();
+        
         if (isset($this->filters['title'])) {
             $query->where('title', 'like', '%' . $this->filters['title'] . '%');
         }
 
-        return $query->select('id', 'title');
+        return $query->select('id', 'title')
+                     ->offset($this->offset)
+                     ->limit($this->batchSize);
     }
-
     public function chunkSize(): int
     {
         return 250;  
