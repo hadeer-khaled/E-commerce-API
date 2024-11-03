@@ -29,12 +29,21 @@ class ExportCategoryChunkJob implements ShouldQueue
 
     public function handle()
     {
-        // Generate and store the export file
+        \Log::info("Handling job with unique ID: " . $this->uniqueId());
+
         Excel::store(
             new CategoryExportWithChunks($this->filters, $this->offset, $this->batchSize),
             $this->filePath,
             'public'
         );
-       
+
+
     }
+
+    public function uniqueId()
+    {
+
+        return "{$this->filePath}-{$this->offset}";
+    }
+
 }

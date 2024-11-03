@@ -509,33 +509,29 @@ class CategoryController extends Controller
         try {
             \Log::info('Queueing export for user ID: ' . $user->id);
     
-            // Get total number of rows based on filters
             $totalRows = Category::when(isset($filters['title']), function ($query) use ($filters) {
                 $query->where('title', 'like', '%' . $filters['title'] . '%');
             })->count();
     
             $batchSize = 7000;
-            $totalBatches = (int) ceil($totalRows / $batchSize);
     
             $fileNames = [];
             $exportJobs = [];
+            $totalBatches = (int) ceil($totalRows / $batchSize);
     
-            // Create jobs for each batch of data
             for ($i = 0; $i < $totalBatches; $i++) {
-                $fileName = "category_" . time() . "_part_{$i}.xlsx";
+                // $fileName = "category_" . time() . "_part_{$i}.xlsx";
+                $fileName = "category_" . uniqid() . "_part_{$i}.xlsx";
+
                 $filePath = "public/{$fileName}";
     
+                $offset = $i * $batchSize;
+                $exportJobs[] = new ExportCategoryChunkJob($filters, $offset, $batchSize, $fileName);
                 $fileNames[] = $fileName;
-                $exportJobs[] = new ExportCategoryChunkJob($filters, $i * $batchSize, $batchSize, $fileName);
             }
     
-            // Add the notification job at the end of the chain
-            $exportJobs[] = new SendExportNotification($user, $fileNames);
-    
-            // Dispatch the chain of jobs
+            $exportJobs[] = new SendExportNotification($user, $fileNames);    
             Bus::chain($exportJobs)->dispatch();
-
-
     
             return response()->json(['message' => 'Export queued successfully.']);
         } catch (Exception $e) {
@@ -547,6 +543,8 @@ class CategoryController extends Controller
             ], 400);
         }
     }
+    
+
     
 
     
