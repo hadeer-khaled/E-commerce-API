@@ -26,4 +26,10 @@ class Category extends Model
     {
         return $this->morphOne(Attachment::class, 'attachable');
     }
+
+    public function scopeCustomPaginate($query, $offset, $limit)
+    {
+        return $query->offset($offset)->limit($limit);
+    }
+
 }

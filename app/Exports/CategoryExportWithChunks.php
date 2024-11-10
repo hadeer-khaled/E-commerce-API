@@ -33,20 +33,15 @@ class CategoryExportWithChunks implements FromCollection , WithStyles, WithHeadi
 
         if (isset($this->filters['title'])) {
             $query->where('title', 'like', '%' . $this->filters['title'] . '%');
-        }
+    }
 
-        \Log::info("Applying offset: {$this->offset}, limit: {$this->batchSize}");
+        \Log::info("Collection:::Applying offset: {$this->offset}, limit: {$this->batchSize}");
 
         return $query->select('id', 'title')
                      ->offset($this->offset)
                      ->limit($this->batchSize)
                      ->get();
     }
-
-    // public function chunkSize(): int
-    // {
-    //     return 250;
-    // }
 
     public function headings(): array
     {

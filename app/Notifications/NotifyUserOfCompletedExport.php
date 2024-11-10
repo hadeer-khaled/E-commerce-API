@@ -26,9 +26,9 @@ class NotifyUserOfCompletedExport extends Notification implements ShouldQueue
     public function __construct(array $fileNames)
     {
         $this->fileNames = $fileNames;
-     
+
     }
-    
+
     /**
      * Get the notification's delivery channels.
      *
@@ -46,10 +46,10 @@ class NotifyUserOfCompletedExport extends Notification implements ShouldQueue
     // public function toMail(object $notifiable): MailMessage
     // {
     //     var_dump($this->fileName);
-        
-    //     $fileContent = Storage::disk('public')->get($this->fileName); 
 
-    
+    //     $fileContent = Storage::disk('public')->get($this->fileName);
+
+
 
     //     return (new MailMessage)
     //             ->subject('Your Export is Ready')
@@ -57,7 +57,7 @@ class NotifyUserOfCompletedExport extends Notification implements ShouldQueue
     //             ->attachData($fileContent, $this->fileName, [
     //                 'mime' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     //             ])
-    //             // ->action('Download File', url('storage/' . $this->fileName)) 
+    //             // ->action('Download File', url('storage/' . $this->fileName))
     //             ->line('Thank you for using our application!');
     // }
 
@@ -67,11 +67,11 @@ class NotifyUserOfCompletedExport extends Notification implements ShouldQueue
         $email = (new MailMessage)
             ->subject('Your Export Files are Ready')
             ->line('The export you requested has been completed.');
-    
+
         foreach ($this->fileNames as $fileName) {
             \Log::info("Checking file at: " . public_path("storage/" . $fileName));
 
-    
+
             if (Storage::disk('public')->exists($fileName)) {
                 $fileContent = Storage::disk('public')->get($fileName);
                 if ($fileContent) {
@@ -85,11 +85,11 @@ class NotifyUserOfCompletedExport extends Notification implements ShouldQueue
                 \Log::error("File does not exist: " . $fileName);
             }
         }
-    
+
         $email->line('Thank you for using our application!');
         return $email;
     }
-    
+
 
     /**
      * Get the array representation of the notification.

@@ -26,7 +26,7 @@ use App\Models\User;
 
 use App\Imports\CategoriesImport ;
 use App\Exports\CategoryExport ;
-use App\Exports\CategoryExportWithChunks ;
+//use App\Exports\CategoryExportWithChunks ;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
@@ -500,38 +500,15 @@ class CategoryController extends Controller
     // }
 
 
-    
     public function export(Request $request)
     {
         $filters = $request->only(['title']);
         $user = User::find($request['user_id']);
+
     
         try {
-            \Log::info('Queueing export for user ID: ' . $user->id);
-    
-            $totalRows = Category::when(isset($filters['title']), function ($query) use ($filters) {
-                $query->where('title', 'like', '%' . $filters['title'] . '%');
-            })->count();
-    
-            $batchSize = 7000;
-    
-            $fileNames = [];
-            $exportJobs = [];
-            $totalBatches = (int) ceil($totalRows / $batchSize);
-    
-            for ($i = 0; $i < $totalBatches; $i++) {
-                // $fileName = "category_" . time() . "_part_{$i}.xlsx";
-                $fileName = "category_" . uniqid() . "_part_{$i}.xlsx";
-
-                $filePath = "public/{$fileName}";
-    
-                $offset = $i * $batchSize;
-                $exportJobs[] = new ExportCategoryChunkJob($filters, $offset, $batchSize, $fileName);
-                $fileNames[] = $fileName;
-            }
-    
-            $exportJobs[] = new SendExportNotification($user, $fileNames);    
-            Bus::chain($exportJobs)->dispatch();
+            // Dispatch the export job with the necessary arguments
+            ExportCategoryChunkJob::dispatch($filters, 7000, $user);
     
             return response()->json(['message' => 'Export queued successfully.']);
         } catch (Exception $e) {
@@ -544,7 +521,6 @@ class CategoryController extends Controller
         }
     }
     
-
     
 
     

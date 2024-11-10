@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CategoryExportWithChunks implements FromQuery, WithHeadings, WithStyles
+class CategoryExportWithChunksQuery implements FromQuery, WithHeadings, WithStyles
 {
     use Exportable;
 
@@ -50,12 +50,14 @@ class CategoryExportWithChunks implements FromQuery, WithHeadings, WithStyles
         if (isset($this->filters['title'])) {
             $query->where('title', 'like', '%' . $this->filters['title'] . '%');
         }
-        // \Log::info("Applying offset: {$this->offset}, limit: {$this->batchSize}");
-  
+        \Log::info("FromQueryKOKOSkipTest::: Applying offset: {$this->offset}, limit: {$this->batchSize}");
+
 
         return $query->select('id', 'title')
-                     ->offset(200)
-                     ->limit(7000);
+                     ->skip($this->offset)
+                     ->take($this->batchSize);
+        // return $query->select('id', 'title')
+        // ->customPaginate($this->offset, $this->batchSize);
     }
     // public function chunkSize(): int
     // {
